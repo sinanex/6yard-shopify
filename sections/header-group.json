@@ -4,6 +4,7 @@
   "sections": {
     "announcement-bar": {
       "type": "announcement-bar",
+      "disabled": true,
       "settings": {
         "color_scheme": "scheme-4",
         "show_line_separator": false,
@@ -13,20 +14,8 @@
         "enable_country_selector": false,
         "enable_language_selector": false
       },
-      "blocks": {
-        "announcement-bar-0": {
-          "type": "announcement",
-          "settings": {
-            "text": "FREE PAN-INDIA DELIVERY ON ALL PREPAID ORDERS • EXPRESS SPEED POST TRACKING",
-            "text_alignment": "center",
-            "color_scheme": "scheme-4",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "announcement-bar-0"
-      ]
+      "blocks": {},
+      "block_order": []
     },
     "header": {
       "type": "header",
