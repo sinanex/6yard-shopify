@@ -928,3 +928,38 @@ body, p, span, a, input, select, button, textarea {
   margin: 6px 0 0;
   line-height: 1.35;
 }
+
+/* Mobile Drawer Account Entry */
+.menu-drawer__account-entry {
+  padding: 4px 0 14px;
+  border-bottom: 1px solid #f3f4f6;
+  margin-bottom: 12px;
+}
+
+.menu-drawer__account-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #111827;
+  color: #ffffff !important;
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-h);
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.menu-drawer__account-btn:hover {
+  background: #000000;
+  color: #CCFF00 !important;
+}
+
+.menu-drawer__account-btn .svg-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
