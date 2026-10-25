@@ -1,0 +1,73 @@
+{% comment %}
+  Meta (Facebook) Pixel Integration for 6YARD
+  Pixel ID: 1075688521931988
+{% endcomment %}
+
+<!-- Meta Pixel Base Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  
+  fbq('init', '1075688521931988');
+  fbq('track', 'PageView');
+</script>
+<noscript>
+  <img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1075688521931988&ev=PageView&noscript=1"
+    alt=""
+  >
+</noscript>
+<!-- End Meta Pixel Base Code -->
+
+{%- if template.name == 'product' -%}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof fbq === 'function') {
+        fbq('track', 'ViewContent', {
+          content_ids: ['{{ product.id }}'],
+          content_name: {{ product.title | json }},
+          content_type: 'product',
+          content_category: {{ product.type | default: 'Football Jersey' | json }},
+          value: {{ product.selected_or_first_available_variant.price | divided_by: 100.0 }},
+          currency: '{{ cart.currency.iso_code | default: "INR" }}'
+        });
+      }
+    });
+  </script>
+{%- endif -%}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Track AddToCart across storefront
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      if (form && form.action && form.action.indexOf('/cart/add') !== -1) {
+        if (typeof fbq === 'function') {
+          fbq('track', 'AddToCart', {
+            content_type: 'product',
+            currency: '{{ cart.currency.iso_code | default: "INR" }}'
+          });
+        }
+      }
+    });
+
+    // Track InitiateCheckout on drawer and cart page
+    document.addEventListener('click', function(e) {
+      var target = e.target.closest('button[name="checkout"], a[href*="/checkout"], #CartDrawer-Checkout, #checkout');
+      if (target && typeof fbq === 'function') {
+        fbq('track', 'InitiateCheckout', {
+          content_type: 'product',
+          currency: '{{ cart.currency.iso_code | default: "INR" }}',
+          num_items: {{ cart.item_count | default: 1 }},
+          value: {{ cart.total_price | divided_by: 100.0 | default: 0 }}
+        });
+      }
+    });
+  });
+</script>
