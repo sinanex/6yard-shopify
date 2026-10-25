@@ -64,43 +64,19 @@
         "col_1": {
           "type": "collection_item",
           "settings": {
-            "title": "RETRO CLASSICS"
-          }
-        },
-        "col_2": {
-          "type": "collection_item",
-          "settings": {
-            "title": "CLUB EDITIONS"
-          }
-        },
-        "col_3": {
-          "type": "collection_item",
-          "settings": {
+            "collection": "all-collection",
             "title": "FIVE SLEEVE SPECIALS"
-          }
-        },
-        "col_4": {
-          "type": "collection_item",
-          "settings": {
-            "title": "WORLD CUP 2026"
-          }
-        },
-        "col_5": {
-          "type": "collection_item",
-          "settings": {
-            "title": "FULL SLEEVE JERSEYS"
           }
         }
       },
       "block_order": [
-        "col_1",
-        "col_2",
-        "col_3",
-        "col_4",
-        "col_5"
+        "col_1"
       ],
       "settings": {
-        "heading": "COLLECTIONS"
+        "heading": "FEATURED COLLECTIONS",
+        "subheading": "Explore official kits by category, club and national teams",
+        "layout_type": "slider",
+        "show_secondary_grid": false
       }
     },
     "new_drops": {

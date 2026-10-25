@@ -2,10 +2,73 @@
   <div class="coverflow-heading-wrap">
     <h2 class="coverflow-heading">{{ section.settings.heading | default: 'COLLECTIONS' }}</h2>
     <div class="coverflow-underline"></div>
+    {%- if section.settings.subheading != blank -%}
+      <p class="coverflow-subheading">{{ section.settings.subheading }}</p>
+    {%- endif -%}
   </div>
 
-  {%- if section.blocks.size > 0 -%}
-    <!-- 3D COVERFLOW LAYERED CAROUSEL (Top Collections) -->
+  {%- liquid
+    assign custom_blocks_count = 0
+    for block in section.blocks
+      if block.settings.collection != blank
+        assign custom_blocks_count = custom_blocks_count | plus: 1
+      endif
+    endfor
+  -%}
+
+  {%- if section.settings.layout_type == 'grid' -%}
+    <!-- CLEAN RESPONSIVE CATEGORY GRID -->
+    <div class="collections-grid-wrapper">
+      <div class="collections-modern-grid">
+        {%- if custom_blocks_count > 0 -%}
+          {%- for block in section.blocks -%}
+            {%- assign col = block.settings.collection -%}
+            {%- if col != blank -%}
+              {%- assign col_image = block.settings.custom_image | default: col.image | default: col.products.first.featured_media.preview_image | default: col.products.first.featured_image -%}
+              <a href="{{ col.url }}" class="collection-modern-card" {{ block.shopify_attributes }}>
+                <div class="collection-card-media">
+                  {%- if col_image != blank -%}
+                    {{ col_image | image_url: width: 800 | image_tag: loading: 'lazy', class: 'col-img', widths: '400, 600, 800', alt: col.title | escape }}
+                  {%- else -%}
+                    <div class="col-placeholder"></div>
+                  {%- endif -%}
+                  <div class="col-card-overlay"></div>
+                </div>
+                <div class="col-card-info">
+                  <span class="col-product-count">{{ col.all_products_count }} KITS</span>
+                  <h3 class="col-card-title">{{ block.settings.title | default: col.title }}</h3>
+                  <span class="col-card-link">EXPLORE &rarr;</span>
+                </div>
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- else -%}
+          {%- for col in collections -%}
+            {%- unless col.handle == 'frontpage' -%}
+              {%- assign col_image = col.image | default: col.products.first.featured_media.preview_image | default: col.products.first.featured_image -%}
+              <a href="{{ col.url }}" class="collection-modern-card">
+                <div class="collection-card-media">
+                  {%- if col_image != blank -%}
+                    {{ col_image | image_url: width: 800 | image_tag: loading: 'lazy', class: 'col-img', widths: '400, 600, 800', alt: col.title | escape }}
+                  {%- else -%}
+                    <div class="col-placeholder"></div>
+                  {%- endif -%}
+                  <div class="col-card-overlay"></div>
+                </div>
+                <div class="col-card-info">
+                  <span class="col-product-count">{{ col.all_products_count }} KITS</span>
+                  <h3 class="col-card-title">{{ col.title }}</h3>
+                  <span class="col-card-link">EXPLORE &rarr;</span>
+                </div>
+              </a>
+            {%- endunless -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </div>
+
+  {%- else -%}
+    <!-- 3D COVERFLOW SLIDER -->
     <div class="coverflow-container">
       <button type="button" class="coverflow-arrow prev-btn" aria-label="Previous Collection">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -20,73 +83,88 @@
       </button>
 
       <div class="coverflow-stage">
-        {%- for block in section.blocks limit: 5 -%}
-          {%- assign collection = block.settings.collection -%}
-          {%- if collection == blank -%}
-            {%- assign col_handle = block.settings.title | handleize -%}
-            {%- assign collection = collections[col_handle] -%}
-          {%- endif -%}
-          {%- assign col_image = block.settings.custom_image | default: collection.featured_image | default: collection.image | default: collection.products.first.featured_media.preview_image -%}
-          <div class="coverflow-slide {% if forloop.first %}active{% elsif forloop.index == 2 %}next{% elsif forloop.last and section.blocks.size > 2 %}prev{% else %}hidden-slide{% endif %}" data-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
-            {%- if col_image != blank -%}
-              {{ col_image | image_url: width: 1400 | image_tag:
-                loading: 'lazy',
-                class: 'coverflow-slide-img',
-                widths: '550, 750, 1100, 1400',
-                alt: block.settings.title | default: collection.title | escape
-              }}
-            {%- else -%}
-              <div class="coverflow-slide-img" style="background: linear-gradient(135deg, #111827 0%, #030712 100%); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-                {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- if custom_blocks_count > 0 -%}
+          {%- for block in section.blocks -%}
+            {%- assign col = block.settings.collection -%}
+            {%- if col != blank -%}
+              {%- assign col_image = block.settings.custom_image | default: col.image | default: col.products.first.featured_media.preview_image | default: col.products.first.featured_image -%}
+              <div class="coverflow-slide {% if forloop.first %}active{% elsif forloop.index == 2 %}next{% elsif forloop.last and forloop.length > 2 %}prev{% else %}hidden-slide{% endif %}" data-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+                {%- if col_image != blank -%}
+                  {{ col_image | image_url: width: 1400 | image_tag:
+                    loading: 'lazy',
+                    class: 'coverflow-slide-img',
+                    widths: '550, 750, 1100, 1400',
+                    alt: col.title | escape
+                  }}
+                {%- else -%}
+                  <div class="coverflow-slide-img col-placeholder"></div>
+                {%- endif -%}
+
+                <div class="coverflow-overlay"></div>
+
+                <div class="coverflow-content">
+                  <div class="coverflow-badge">{{ col.all_products_count }} PRODUCTS</div>
+                  <h3 class="coverflow-title">{{ block.settings.title | default: col.title }}</h3>
+                  <a href="{{ col.url }}" class="coverflow-btn">
+                    EXPLORE &rarr;
+                  </a>
+                </div>
               </div>
             {%- endif -%}
+          {%- endfor -%}
+        {%- else -%}
+          {%- assign slide_idx = 0 -%}
+          {%- for col in collections -%}
+            {%- unless col.handle == 'frontpage' -%}
+              {%- assign col_image = col.image | default: col.products.first.featured_media.preview_image | default: col.products.first.featured_image -%}
+              <div class="coverflow-slide {% if slide_idx == 0 %}active{% elsif slide_idx == 1 %}next{% else %}hidden-slide{% endif %}" data-index="{{ slide_idx }}">
+                {%- if col_image != blank -%}
+                  {{ col_image | image_url: width: 1400 | image_tag:
+                    loading: 'lazy',
+                    class: 'coverflow-slide-img',
+                    widths: '550, 750, 1100, 1400',
+                    alt: col.title | escape
+                  }}
+                {%- else -%}
+                  <div class="coverflow-slide-img col-placeholder"></div>
+                {%- endif -%}
 
-            <div class="coverflow-overlay"></div>
+                <div class="coverflow-overlay"></div>
 
-            <div class="coverflow-content">
-              <div class="coverflow-badge">FEATURED COLLECTION</div>
-              <h3 class="coverflow-title">{{ block.settings.title | default: collection.title | default: 'Football Collection' }}</h3>
-              <a href="{{ collection.url | default: routes.all_products_collection_url }}" class="coverflow-btn">
-                EXPLORE &rarr;
-              </a>
-            </div>
-          </div>
-        {%- endfor -%}
+                <div class="coverflow-content">
+                  <div class="coverflow-badge">{{ col.all_products_count }} PRODUCTS</div>
+                  <h3 class="coverflow-title">{{ col.title }}</h3>
+                  <a href="{{ col.url }}" class="coverflow-btn">
+                    EXPLORE &rarr;
+                  </a>
+                </div>
+              </div>
+              {%- assign slide_idx = slide_idx | plus: 1 -%}
+            {%- endunless -%}
+          {%- endfor -%}
+        {%- endif -%}
       </div>
     </div>
 
-    <!-- 2x2 PROMO GRID FOR OTHER COLLECTIONS -->
-    {%- if section.blocks.size > 1 -%}
+    <!-- OPTIONAL SECONDARY PROMO GRID (Default Disabled to Avoid Duplicate Categories) -->
+    {%- if section.settings.show_secondary_grid -%}
       <div class="coverflow-promo-grid">
-        {%- for block in section.blocks offset: 1 limit: 4 -%}
-          {%- assign collection = block.settings.collection -%}
-          {%- if collection == blank -%}
-            {%- assign col_handle = block.settings.title | handleize -%}
-            {%- assign collection = collections[col_handle] -%}
-          {%- endif -%}
-          {%- assign col_image = block.settings.custom_image | default: collection.featured_image | default: collection.image | default: collection.products.first.featured_media.preview_image -%}
-          <a href="{{ collection.url | default: routes.all_products_collection_url }}" class="coverflow-promo-card" {{ block.shopify_attributes }}>
-            {%- if col_image != blank -%}
-              {{ col_image | image_url: width: 900 | image_tag:
-                loading: 'lazy',
-                widths: '400, 600, 900',
-                alt: block.settings.title | default: collection.title | escape
-              }}
-            {%- else -%}
-              <div style="background: linear-gradient(135deg, #1f2937 0%, #111827 100%); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-                {{ 'collection-2' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- for col in collections offset: 1 limit: 4 -%}
+          {%- unless col.handle == 'frontpage' -%}
+            {%- assign col_image = col.image | default: col.products.first.featured_media.preview_image | default: col.products.first.featured_image -%}
+            <a href="{{ col.url }}" class="coverflow-promo-card">
+              {%- if col_image != blank -%}
+                {{ col_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '400, 600, 900', alt: col.title | escape }}
+              {%- else -%}
+                <div class="col-placeholder"></div>
+              {%- endif -%}
+              <div class="coverflow-promo-overlay"></div>
+              <div class="coverflow-promo-content">
+                <h3 class="coverflow-promo-title">{{ col.title }}</h3>
+                <span class="coverflow-btn">EXPLORE &rarr;</span>
               </div>
-            {%- endif -%}
-
-            <div class="coverflow-promo-overlay"></div>
-
-            <div class="coverflow-promo-content">
-              <h3 class="coverflow-promo-title">{{ block.settings.title | default: collection.title | default: 'Club Editions' }}</h3>
-              <span class="coverflow-btn">
-                EXPLORE &rarr;
-              </span>
-            </div>
-          </a>
+            </a>
+          {%- endunless -%}
         {%- endfor -%}
       </div>
     {%- endif -%}
@@ -95,7 +173,7 @@
 
 {% schema %}
 {
-  "name": "Collections Coverflow",
+  "name": "Collections Showcase",
   "tag": "section",
   "class": "section",
   "settings": [
@@ -103,7 +181,29 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "COLLECTIONS"
+      "default": "FEATURED COLLECTIONS"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Explore by category, club, sleeve type and national kits"
+    },
+    {
+      "type": "select",
+      "id": "layout_type",
+      "label": "Category Layout Style",
+      "options": [
+        { "value": "slider", "label": "3D Sliding Carousel" },
+        { "value": "grid", "label": "Modern Responsive Grid" }
+      ],
+      "default": "slider"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_grid",
+      "label": "Show Secondary 2x2 Grid Below Slider (Optional)",
+      "default": false
     }
   ],
   "blocks": [
@@ -114,7 +214,7 @@
         {
           "type": "collection",
           "id": "collection",
-          "label": "Select Collection"
+          "label": "Select Shopify Collection"
         },
         {
           "type": "text",
@@ -131,14 +231,12 @@
   ],
   "presets": [
     {
-      "name": "Collections Coverflow",
-      "blocks": [
-        { "type": "collection_item", "settings": { "title": "RETRO CLASSICS" } },
-        { "type": "collection_item", "settings": { "title": "CLUB EDITIONS 24/25" } },
-        { "type": "collection_item", "settings": { "title": "NATIONAL TEAMS" } },
-        { "type": "collection_item", "settings": { "title": "FIVE SLEEVE SPECIALS" } },
-        { "type": "collection_item", "settings": { "title": "FULL SLEEVE JERSEYS" } }
-      ]
+      "name": "Collections Showcase",
+      "settings": {
+        "heading": "FEATURED COLLECTIONS",
+        "layout_type": "slider",
+        "show_secondary_grid": false
+      }
     }
   ]
 }

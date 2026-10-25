@@ -565,6 +565,119 @@ body, p, span, a, input, select, button, textarea {
   color: #ffffff;
 }
 
+.coverflow-subheading {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 10px 0 0;
+  font-weight: 500;
+}
+
+.col-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #020617 100%);
+  display: block;
+}
+
+/* Modern Collections Grid */
+.collections-grid-wrapper {
+  width: min(100% - 32px, 1360px);
+  margin: 0 auto;
+}
+
+.collections-modern-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.collection-modern-card {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: block;
+  text-decoration: none;
+  background: #0f172a;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.collection-modern-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
+}
+
+.collection-card-media {
+  position: absolute;
+  inset: 0;
+}
+
+.collection-card-media .col-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.collection-modern-card:hover .collection-card-media .col-img {
+  transform: scale(1.06);
+}
+
+.col-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.4) 40%, rgba(0, 0, 0, 0.88) 100%);
+}
+
+.col-card-info {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  color: #ffffff;
+  z-index: 2;
+}
+
+.col-product-count {
+  font-size: 10px;
+  font-weight: 800;
+  color: #CCFF00;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.col-card-title {
+  font-family: var(--font-h);
+  font-size: 20px;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+  line-height: 1.15;
+  color: #ffffff;
+}
+
+.col-card-link {
+  font-size: 11px;
+  font-weight: 800;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.85;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.collection-modern-card:hover .col-card-link {
+  opacity: 1;
+  color: #CCFF00;
+  transform: translateX(4px);
+}
+
 @media screen and (max-width: 749px) {
   .coverflow-container {
     height: 300px;
@@ -574,6 +687,16 @@ body, p, span, a, input, select, button, textarea {
   }
   .coverflow-promo-grid {
     grid-template-columns: 1fr;
+  }
+  .collections-modern-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .collection-modern-card {
+    aspect-ratio: 1 / 1;
+  }
+  .col-card-title {
+    font-size: 15px;
   }
 }
 
