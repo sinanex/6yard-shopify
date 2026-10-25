@@ -1,0 +1,162 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+
+<div class="customer-order-page page-width">
+  <!-- Branded App Bar -->
+  <div class="customer-appbar">
+    <div class="customer-appbar__brand">
+      <a href="{{ routes.root_url }}">
+        <img
+          src="{{ 'logo.png' | asset_url }}"
+          alt="6YARD Football Kits"
+          class="customer-appbar__logo"
+          width="130"
+          height="42"
+          loading="eager"
+        >
+      </a>
+      <span class="customer-appbar__badge">ORDER DETAILS</span>
+    </div>
+    <div class="customer-appbar__actions">
+      <a href="{{ routes.account_url }}" class="customer-appbar__shop-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        <span>Back to My Orders</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="order-detail-header">
+    <div class="order-detail-header__left">
+      <h1 class="order-detail-title">Order {{ order.name }}</h1>
+      <p class="order-detail-date">Placed on {{ order.created_at | time_tag: format: 'date_at_time' }}</p>
+    </div>
+    <div class="order-detail-header__badges">
+      <span class="order-badge order-badge--{{ order.financial_status }}">
+        Payment: {{ order.financial_status_label }}
+      </span>
+      <span class="order-badge order-badge--{{ order.fulfillment_status }}">
+        Fulfillment: {{ order.fulfillment_status_label }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Real-time Speed Post Tracking Tracker Box -->
+  {%- assign fulfillment = order.line_items.first.fulfillment -%}
+  <div class="order-tracking-card">
+    <div class="tracking-card-header">
+      <div class="tracking-carrier-info">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+        <div>
+          <span class="carrier-name">{{ fulfillment.tracking_company | default: 'India Post Speed Post' }}</span>
+          {%- if fulfillment.tracking_number != blank -%}
+            <span class="tracking-number">AWB / Consignment: <strong>{{ fulfillment.tracking_number }}</strong></span>
+          {%- else -%}
+            <span class="tracking-number">Preparing for Speed Post dispatch (2-4 business days)</span>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- if fulfillment.tracking_url != blank -%}
+        <a href="{{ fulfillment.tracking_url }}" target="_blank" rel="noopener" class="btn-live-track">
+          Track on Courier Portal ➔
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="order-content-grid">
+    <!-- Line Items Table -->
+    <div class="order-items-card">
+      <h2 class="card-title">Kit Items Ordered</h2>
+      <div class="order-items-list">
+        {%- for line_item in order.line_items -%}
+          <div class="order-item-detail-row">
+            {%- if line_item.image -%}
+              <img
+                src="{{ line_item.image | image_url: width: 120 }}"
+                alt="{{ line_item.title }}"
+                class="item-img"
+                width="64"
+                height="64"
+              >
+            {%- endif -%}
+            <div class="item-info">
+              <a href="{{ line_item.product.url }}" class="item-title">{{ line_item.product.title }}</a>
+              <span class="item-variant">Size: {{ line_item.variant.title }}</span>
+              <span class="item-qty">Quantity: {{ line_item.quantity }}</span>
+            </div>
+            <div class="item-pricing">
+              <span class="item-price">{{ line_item.final_line_price | money }}</span>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <!-- Financial Totals Breakdown -->
+      <div class="order-totals-summary">
+        <div class="total-row">
+          <span>Subtotal</span>
+          <span>{{ order.line_items_subtotal_price | money }}</span>
+        </div>
+        <div class="total-row">
+          <span>Shipping (Express Speed Post)</span>
+          <span>{% if order.shipping_price == 0 %}FREE{% else %}{{ order.shipping_price | money }}{% endif %}</span>
+        </div>
+        {%- if order.total_discounts > 0 -%}
+          <div class="total-row discount-row">
+            <span>Discount Applied</span>
+            <span>-{{ order.total_discounts | money }}</span>
+          </div>
+        {%- endif -%}
+        <div class="total-row total-row-final">
+          <span>Total</span>
+          <span>{{ order.total_net_amount | money_with_currency }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Customer Addresses & Support -->
+    <div class="order-sidebar">
+      <div class="address-card">
+        <h3 class="card-subtitle">Shipping Address</h3>
+        <p class="address-text">
+          <strong>{{ order.shipping_address.name }}</strong><br>
+          {{ order.shipping_address.address1 }}
+          {%- if order.shipping_address.address2 != blank %}, {{ order.shipping_address.address2 }}{% endif -%}<br>
+          {{ order.shipping_address.city }}, {{ order.shipping_address.province }} - {{ order.shipping_address.zip }}<br>
+          {{ order.shipping_address.country }}<br>
+          {%- if order.shipping_address.phone != blank -%}
+            Phone: {{ order.shipping_address.phone }}
+          {%- endif -%}
+        </p>
+      </div>
+
+      <div class="address-card">
+        <h3 class="card-subtitle">Billing Address</h3>
+        <p class="address-text">
+          <strong>{{ order.billing_address.name }}</strong><br>
+          {{ order.billing_address.address1 }}<br>
+          {{ order.billing_address.city }}, {{ order.billing_address.province }} - {{ order.billing_address.zip }}
+        </p>
+      </div>
+
+      <div class="help-box">
+        <span class="help-title">Need help with this order?</span>
+        <p class="help-desc">Size exchange or tracking assistance? Chat directly with us on WhatsApp.</p>
+        <a
+          href="https://wa.me/919292007150?text=Hi%206YARD!%20I%20have%20an%20inquiry%20regarding%20Order%20{{ order.name }}."
+          target="_blank"
+          rel="noopener"
+          class="support-wa-btn"
+        >
+          WhatsApp Support (+91 9292007150)
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Customer Order",
+  "settings": []
+}
+{% endschema %}

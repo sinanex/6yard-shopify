@@ -1,0 +1,77 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+
+<div class="customer-addresses-page page-width">
+  <div class="customer-appbar">
+    <div class="customer-appbar__brand">
+      <a href="{{ routes.root_url }}">
+        <img
+          src="{{ 'logo.png' | asset_url }}"
+          alt="6YARD Football Kits"
+          class="customer-appbar__logo"
+          width="130"
+          height="42"
+          loading="eager"
+        >
+      </a>
+      <span class="customer-appbar__badge">SAVED ADDRESSES</span>
+    </div>
+    <div class="customer-appbar__actions">
+      <a href="{{ routes.account_url }}" class="customer-appbar__shop-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        <span>Back to Account</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="addresses-header">
+    <h1 class="addresses-title">Delivery Addresses</h1>
+    <p class="addresses-subtitle">Manage your shipping destinations for fast checkout.</p>
+  </div>
+
+  {%- paginate customer.addresses by 6 -%}
+    <div class="addresses-grid">
+      {%- for address in customer.addresses -%}
+        <div class="address-card-item {% if address == customer.default_address %}address-card-item--default{% endif %}">
+          {%- if address == customer.default_address -%}
+            <span class="default-badge">DEFAULT ADDRESS</span>
+          {%- endif -%}
+          <p class="addr-person-name">{{ address.name }}</p>
+          <p class="addr-details">
+            {{ address.address1 }}
+            {%- if address.address2 != blank %}, {{ address.address2 }}{% endif -%}<br>
+            {{ address.city }}, {{ address.province }} - {{ address.zip }}<br>
+            {{ address.country }}
+          </p>
+          {%- if address.phone != blank -%}
+            <p class="addr-phone">Phone: {{ address.phone }}</p>
+          {%- endif -%}
+
+          <div class="addr-actions">
+            <form
+              class="address-delete-form"
+              method="post"
+              action="/account/addresses/{{ address.id }}"
+              onsubmit="return confirm('Delete this address?');"
+            >
+              <input type="hidden" name="_method" value="delete">
+              <button type="submit" class="btn-addr-del">Delete</button>
+            </form>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if paginate.pages > 1 -%}
+      <div class="customer-pagination">
+        {{ paginate | default_pagination }}
+      </div>
+    {%- endif -%}
+  {%- endpaginate -%}
+</div>
+
+{% schema %}
+{
+  "name": "Customer Addresses",
+  "settings": []
+}
+{% endschema %}

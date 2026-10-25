@@ -1,0 +1,152 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+
+<div class="customer-auth-container page-width">
+  <div class="customer-auth-card">
+    <!-- 6YARD Brand Header -->
+    <div class="customer-auth-brand">
+      <a href="{{ routes.root_url }}">
+        <img
+          src="{{ 'logo.png' | asset_url }}"
+          alt="6YARD Football Kits"
+          class="customer-auth-logo"
+          width="135"
+          height="44"
+          loading="eager"
+        >
+      </a>
+      <p class="customer-auth-tagline">BUILT TO PLAY • FOOTBALL KITS</p>
+    </div>
+
+    <!-- Recover Password Form (Hidden by default) -->
+    <div id="recover" class="customer-auth-box" style="display: none;">
+      <h1 class="customer-auth-title">Reset Your Password</h1>
+      <p class="customer-auth-desc">We will send you an email to reset your password.</p>
+
+      {%- form 'recover_customer_password' -%}
+        {% assign recover_success = form.posted_successfully? %}
+        {%- if form.errors -%}
+          <div class="auth-error-msg">
+            {{ form.errors.messages.form }}
+          </div>
+        {%- endif -%}
+
+        <div class="auth-field">
+          <label for="RecoverEmail">Email Address</label>
+          <input
+            type="email"
+            value=""
+            name="email"
+            id="RecoverEmail"
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="email"
+            placeholder="your.email@example.com"
+            required
+          >
+        </div>
+
+        <button type="submit" class="auth-submit-btn">Send Reset Link</button>
+        <button type="button" class="auth-cancel-btn" onclick="toggleRecoverPassword(false)">
+          Cancel & Return to Login
+        </button>
+      {%- endform -%}
+    </div>
+
+    <!-- Login Form -->
+    <div id="login" class="customer-auth-box">
+      <h1 class="customer-auth-title">Customer Login</h1>
+      <p class="customer-auth-desc">Sign in to view your kit orders and Speed Post tracking.</p>
+
+      {%- if recover_success == true -%}
+        <div class="auth-success-msg">
+          We've sent you an email with a link to update your password.
+        </div>
+      {%- endif -%}
+
+      {%- form 'customer_login', novalidate: 'novalidate' -%}
+        {%- if form.errors -%}
+          <div class="auth-error-msg">
+            {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
+
+        <div class="auth-field">
+          <label for="CustomerEmail">Email Address</label>
+          <input
+            type="email"
+            name="customer[email]"
+            id="CustomerEmail"
+            autocomplete="email"
+            autocorrect="off"
+            autocapitalize="off"
+            placeholder="Enter your email"
+            required
+          >
+        </div>
+
+        {%- if form.password_needed -%}
+          <div class="auth-field">
+            <div class="auth-field-header">
+              <label for="CustomerPassword">Password</label>
+              <a href="#recover" class="auth-forgot-link" onclick="toggleRecoverPassword(true); return false;">
+                Forgot Password?
+              </a>
+            </div>
+            <input
+              type="password"
+              value=""
+              name="customer[password]"
+              id="CustomerPassword"
+              autocomplete="current-password"
+              placeholder="Enter your password"
+              required
+            >
+          </div>
+        {%- endif -%}
+
+        <button type="submit" class="auth-submit-btn">
+          Sign In
+        </button>
+      {%- endform -%}
+
+      <!-- Create Account Footer -->
+      <div class="auth-footer-action">
+        <span>Don't have an account?</span>
+        <a href="{{ routes.account_register_url }}" class="auth-link-bold">Create Account</a>
+      </div>
+
+      <!-- Guest Order Tracking Notice -->
+      <div class="auth-guest-notice">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        <span>Placed an order as a guest? Tracking updates are automatically sent via SMS and WhatsApp.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function toggleRecoverPassword(showRecover) {
+    var recoverEl = document.getElementById('recover');
+    var loginEl = document.getElementById('login');
+    if (recoverEl && loginEl) {
+      if (showRecover) {
+        recoverEl.style.display = 'block';
+        loginEl.style.display = 'none';
+      } else {
+        recoverEl.style.display = 'none';
+        loginEl.style.display = 'block';
+      }
+    }
+  }
+
+  if (window.location.hash === '#recover') {
+    toggleRecoverPassword(true);
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Customer Login",
+  "settings": []
+}
+{% endschema %}

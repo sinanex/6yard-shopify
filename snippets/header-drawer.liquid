@@ -22,6 +22,21 @@
     </summary>
     <div id="menu-drawer" class="gradient menu-drawer motion-reduce color-{{ section.settings.menu_color_scheme }}">
       <div class="menu-drawer__inner-container">
+        <!-- Branded Mobile Drawer App Bar -->
+        <div class="menu-drawer__top-brand">
+          <a href="{{ routes.root_url }}" class="menu-drawer__brand-link">
+            <img
+              src="{{ 'logo.png' | asset_url }}"
+              alt="6YARD Football Kits"
+              class="menu-drawer__logo"
+              width="125"
+              height="40"
+              loading="eager"
+              style="height: auto; max-width: 125px; object-fit: contain; display: block;"
+            >
+          </a>
+          <span class="menu-drawer__badge">BUILT TO PLAY</span>
+        </div>
         <div class="menu-drawer__navigation-container">
           <nav class="menu-drawer__navigation">
             <ul class="menu-drawer__menu has-submenu list-menu" role="list">

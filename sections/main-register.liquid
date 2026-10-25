@@ -1,0 +1,101 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+
+<div class="customer-auth-container page-width">
+  <div class="customer-auth-card">
+    <div class="customer-auth-brand">
+      <a href="{{ routes.root_url }}">
+        <img
+          src="{{ 'logo.png' | asset_url }}"
+          alt="6YARD Football Kits"
+          class="customer-auth-logo"
+          width="135"
+          height="44"
+          loading="eager"
+        >
+      </a>
+      <p class="customer-auth-tagline">BUILT TO PLAY • FOOTBALL KITS</p>
+    </div>
+
+    <div class="customer-auth-box">
+      <h1 class="customer-auth-title">Create Account</h1>
+      <p class="customer-auth-desc">Join 6YARD for faster checkout, order history, and exclusive kit drops.</p>
+
+      {%- form 'create_customer', novalidate: 'novalidate' -%}
+        {%- if form.errors -%}
+          <div class="auth-error-msg">
+            {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
+
+        <div class="auth-field-grid">
+          <div class="auth-field">
+            <label for="RegisterFirstName">First Name</label>
+            <input
+              type="text"
+              name="customer[first_name]"
+              id="RegisterFirstName"
+              {% if form.first_name %}value="{{ form.first_name }}"{% endif %}
+              autocomplete="given-name"
+              placeholder="First name"
+              required
+            >
+          </div>
+          <div class="auth-field">
+            <label for="RegisterLastName">Last Name</label>
+            <input
+              type="text"
+              name="customer[last_name]"
+              id="RegisterLastName"
+              {% if form.last_name %}value="{{ form.last_name }}"{% endif %}
+              autocomplete="family-name"
+              placeholder="Last name"
+              required
+            >
+          </div>
+        </div>
+
+        <div class="auth-field">
+          <label for="RegisterEmail">Email Address</label>
+          <input
+            type="email"
+            name="customer[email]"
+            id="RegisterEmail"
+            {% if form.email %}value="{{ form.email }}"{% endif %}
+            spellcheck="false"
+            autocapitalize="off"
+            autocomplete="email"
+            placeholder="Enter your email"
+            required
+          >
+        </div>
+
+        <div class="auth-field">
+          <label for="RegisterPassword">Create Password</label>
+          <input
+            type="password"
+            name="customer[password]"
+            id="RegisterPassword"
+            placeholder="Minimum 6 characters"
+            required
+          >
+        </div>
+
+        <button type="submit" class="auth-submit-btn">
+          Create 6YARD Account
+        </button>
+      {%- endform -%}
+
+      <div class="auth-footer-action">
+        <span>Already have an account?</span>
+        <a href="{{ routes.account_login_url }}" class="auth-link-bold">Sign In</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Customer Register",
+  "settings": []
+}
+{% endschema %}
