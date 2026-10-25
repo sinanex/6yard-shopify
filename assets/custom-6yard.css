@@ -867,9 +867,31 @@ body, p, span, a, input, select, button, textarea {
   position: fixed;
   bottom: 24px;
   right: 24px;
-  z-index: 9999;
+  z-index: 95;
   text-decoration: none;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
 }
+
+/* Hide WhatsApp button when Cart Drawer or modal is open */
+body:has(.cart-drawer.active) .whatsapp-float-btn,
+body:has(cart-drawer.active) .whatsapp-float-btn,
+body.overflow-hidden .whatsapp-float-btn,
+.cart-drawer.active ~ * .whatsapp-float-btn,
+cart-drawer.active ~ * .whatsapp-float-btn,
+.drawer.active ~ * .whatsapp-float-btn {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: scale(0.7) !important;
+}
+
+/* On Cart Page on mobile, elevate WhatsApp button so it never collides with Checkout button */
+@media screen and (max-width: 749px) {
+  .template-cart .whatsapp-float-btn {
+    bottom: 85px;
+  }
+}
+
 
 .whatsapp-float-wrapper {
   position: relative;
@@ -1009,48 +1031,188 @@ body, p, span, a, input, select, button, textarea {
   border-radius: var(--radius-md);
 }
 
-/* Cart Drawer Payment & COD Notice */
-.cart-drawer-payment-notice {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: var(--radius-sm);
-  padding: 10px 12px;
-  margin: 14px 0 10px;
+/* ==========================================================================
+   CART & CHECKOUT EXPERIENCE UPGRADES
+   ========================================================================== */
+
+/* Free Shipping Meter in Cart Drawer */
+.cart-drawer-shipping-bar {
+  background: #f0fdf4;
+  border-bottom: 1px solid #bbf7d0;
+  padding: 10px 16px;
 }
 
-.cd-pay-row {
+.cd-ship-msg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  color: #166534;
+  line-height: 1.3;
+}
+
+.cd-ship-msg strong {
+  font-weight: 700;
+  color: #14532d;
+}
+
+.cd-ship-progress {
+  width: 100%;
+  height: 4px;
+  background: #dcfce7;
+  border-radius: 9999px;
+  margin-top: 6px;
+  overflow: hidden;
+}
+
+.cd-ship-fill {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+  border-radius: 9999px;
+  animation: shipFillGlow 2s ease infinite alternate;
+}
+
+@keyframes shipFillGlow {
+  0% { opacity: 0.85; }
+  100% { opacity: 1; }
+}
+
+/* Payment & Trust Reassurance Box */
+.cart-drawer-checkout-block,
+.cart-page-checkout-block {
+  margin-top: 10px;
+}
+
+.cd-payment-trust-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+}
+
+.cd-pay-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  flex-wrap: wrap;
+  margin-bottom: 8px;
 }
 
-.cd-pay-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
+.cd-pay-title {
   font-size: 11px;
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   color: #0f172a;
 }
 
-.cd-online-badge {
-  background: #ecfdf5;
-  color: #065f46;
-  border: 1px solid #a7f3d0;
-  padding: 2px 7px;
-  border-radius: 4px;
+.cd-pay-tag {
   font-size: 10px;
-  letter-spacing: 0.05em;
+  font-weight: 700;
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.cd-pay-pills-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cd-pay-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #1e293b;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .cd-pay-subtext {
-  font-size: 10px;
+  font-size: 10.5px;
   color: #64748b;
-  margin: 6px 0 0;
+  margin: 7px 0 0;
   line-height: 1.35;
 }
+
+/* Upgraded Checkout CTA Button */
+.cd-checkout-btn-upgrade {
+  background: #111827 !important;
+  color: #ffffff !important;
+  border: 1px solid #111827 !important;
+  border-radius: 10px !important;
+  padding: 15px 20px !important;
+  font-family: var(--font-h) !important;
+  font-size: 13.5px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 4px 14px rgba(17, 24, 39, 0.2) !important;
+  cursor: pointer !important;
+}
+
+.cd-checkout-btn-upgrade:hover {
+  background: #000000 !important;
+  color: #CCFF00 !important;
+  border-color: #000000 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35) !important;
+}
+
+.cd-checkout-btn-upgrade:active {
+  transform: translateY(0);
+}
+
+.cd-btn-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cd-btn-arrow {
+  font-size: 16px;
+  transition: transform 0.2s ease;
+}
+
+.cd-checkout-btn-upgrade:hover .cd-btn-arrow {
+  transform: translateX(4px);
+}
+
+/* Trust Badges under CTA */
+.cart-drawer-trust-badges {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed #e2e8f0;
+}
+
+.cd-trust-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #64748b;
+  white-space: nowrap;
+}
+
 
 /* Mobile Drawer Account Entry */
 .menu-drawer__account-entry {
