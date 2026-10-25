@@ -1,0 +1,361 @@
+{{ 'section-image-banner.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .campaign-hero-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    height: {{ section.settings.desktop_height }}px;
+    min-height: 480px;
+    background-color: #030712;
+    overflow: hidden;
+  }
+
+  @media screen and (max-width: 749px) {
+    .campaign-hero-{{ section.id }} {
+      height: {{ section.settings.mobile_height }}px;
+      min-height: 420px;
+    }
+  }
+
+  .campaign-hero-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+  }
+
+  .campaign-hero-slide.is-active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+  }
+
+  .campaign-hero-media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .campaign-hero-scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.85) 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .campaign-hero-content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+    padding: 0 16px 40px;
+    max-width: 1360px;
+    margin: 0 auto;
+  }
+
+  @media screen and (min-width: 750px) {
+    .campaign-hero-content {
+      padding: 0 32px 60px;
+    }
+  }
+
+  .campaign-hero-title {
+    font-family: var(--font-h);
+    font-size: clamp(32px, 5vw, 64px);
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #ffffff;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px 0;
+    max-width: 800px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  }
+
+  .campaign-hero-subtitle {
+    font-family: var(--font-sans);
+    font-size: clamp(14px, 1.8vw, 18px);
+    color: rgba(255, 255, 255, 0.88);
+    line-height: 1.5;
+    margin: 0 0 24px 0;
+    max-width: 580px;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  }
+
+  .campaign-hero-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 32px;
+    background: #ffffff;
+    color: #000000;
+    border-radius: var(--radius-md);
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    text-decoration: none;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+  }
+
+  .campaign-hero-btn:hover {
+    background: #000000;
+    color: #ffffff;
+    transform: scale(1.03);
+  }
+
+  .campaign-hero-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    padding: 6px 12px;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .campaign-hero-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.4);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .campaign-hero-dot.is-active {
+    width: 24px;
+    background: #ffffff;
+  }
+{%- endstyle -%}
+
+<div class="campaign-hero-{{ section.id }}" id="CampaignHero-{{ section.id }}" data-autoplay="{{ section.settings.autoplay }}" data-interval="{{ section.settings.autoplay_speed | times: 1000 }}">
+  {%- if section.blocks.size > 0 -%}
+    {%- for block in section.blocks -%}
+      <div class="campaign-hero-slide {% if forloop.first %}is-active{% endif %}" data-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+        {%- if block.settings.video_url != blank -%}
+          <video
+            class="campaign-hero-media"
+            src="{{ block.settings.video_url }}"
+            autoplay
+            muted
+            loop
+            playsinline
+            {% if block.settings.image != blank %}poster="{{ block.settings.image | image_url: width: 1800 }}"{% endif %}
+          ></video>
+        {%- elsif block.settings.image != blank -%}
+          {{ block.settings.image | image_url: width: 2400 | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            class: 'campaign-hero-media',
+            widths: '750, 1100, 1500, 1780, 2000, 2400',
+            alt: block.settings.heading | default: '6YARD Football Kits'
+          }}
+        {%- else -%}
+          <img
+            class="campaign-hero-media"
+            src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1800&auto=format&fit=crop"
+            alt="6YARD Football Kits"
+            loading="eager"
+          />
+        {%- endif -%}
+
+        <div class="campaign-hero-scrim"></div>
+
+        {%- if block.settings.heading != blank or block.settings.subheading != blank or block.settings.button_label != blank -%}
+          <div class="campaign-hero-content">
+            {%- if block.settings.heading != blank -%}
+              <h1 class="campaign-hero-title">{{ block.settings.heading }}</h1>
+            {%- endif -%}
+
+            {%- if block.settings.subheading != blank -%}
+              <p class="campaign-hero-subtitle">{{ block.settings.subheading }}</p>
+            {%- endif -%}
+
+            {%- if block.settings.button_label != blank -%}
+              <a href="{{ block.settings.button_link | default: '/collections/all' }}" class="campaign-hero-btn">
+                {{ block.settings.button_label }}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+
+    {%- if section.blocks.size > 1 -%}
+      <div class="campaign-hero-dots">
+        {%- for block in section.blocks -%}
+          <button class="campaign-hero-dot {% if forloop.first %}is-active{% endif %}" data-slide-to="{{ forloop.index0 }}" aria-label="Slide {{ forloop.index }}"></button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const hero = document.getElementById('CampaignHero-{{ section.id }}');
+    if (!hero) return;
+
+    const slides = hero.querySelectorAll('.campaign-hero-slide');
+    const dots = hero.querySelectorAll('.campaign-hero-dot');
+    if (slides.length <= 1) return;
+
+    let currentIndex = 0;
+    const interval = parseInt(hero.dataset.interval || '6000', 10);
+    let timer = null;
+
+    function goToSlide(index) {
+      slides[currentIndex].classList.remove('is-active');
+      if (dots[currentIndex]) dots[currentIndex].classList.remove('is-active');
+
+      currentIndex = index;
+
+      slides[currentIndex].classList.add('is-active');
+      if (dots[currentIndex]) dots[currentIndex].classList.add('is-active');
+    }
+
+    function nextSlide() {
+      const nextIndex = (currentIndex + 1) % slides.length;
+      goToSlide(nextIndex);
+    }
+
+    if (hero.dataset.autoplay === 'true') {
+      timer = setInterval(nextSlide, interval);
+      hero.addEventListener('mouseenter', () => clearInterval(timer));
+      hero.addEventListener('mouseleave', () => {
+        clearInterval(timer);
+        timer = setInterval(nextSlide, interval);
+      });
+    }
+
+    dots.forEach((dot) => {
+      dot.addEventListener('click', (e) => {
+        const targetIdx = parseInt(e.target.dataset.slideTo, 10);
+        goToSlide(targetIdx);
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Campaign Hero Banner",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "min": 400,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "label": "Desktop Height",
+      "default": 620
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "min": 350,
+      "max": 650,
+      "step": 10,
+      "unit": "px",
+      "label": "Mobile Height",
+      "default": 480
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay Carousel",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "unit": "s",
+      "label": "Autoplay Speed",
+      "default": 6
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Hero Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Background Image"
+        },
+        {
+          "type": "text",
+          "id": "video_url",
+          "label": "Direct MP4 Video URL (optional)"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "PREMIUM FOOTBALL KITS"
+        },
+        {
+          "type": "textarea",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "Authentic fan & player edition jerseys with pan-India Speed Post delivery."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label",
+          "default": "EXPLORE ALL KITS"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Campaign Hero Banner",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "heading": "PREMIUM FOOTBALL KITS",
+            "subheading": "Authentic fan & player edition jerseys with pan-India Speed Post delivery.",
+            "button_label": "EXPLORE ALL KITS"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

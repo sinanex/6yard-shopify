@@ -1,0 +1,239 @@
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .new-drops-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: #ffffff;
+    border-top: 1px solid #f1f5f9;
+  }
+
+  .new-drops-container {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .new-drops-container {
+      padding: 0 32px;
+    }
+  }
+
+  .new-drops-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 28px;
+    gap: 16px;
+  }
+
+  .new-drops-title {
+    font-family: var(--font-h);
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #030712;
+    margin: 0;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .new-drops-title span {
+    color: #5c5c5c;
+  }
+
+  .new-drops-subtitle {
+    font-size: 13px;
+    color: #6b7280;
+    margin-top: 6px;
+  }
+
+  .new-drops-view-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #111827;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .new-drops-view-link:hover {
+    color: #4b5563;
+  }
+
+  .new-drops-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  @media screen and (min-width: 640px) {
+    .new-drops-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    .new-drops-grid {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 18px;
+    }
+  }
+
+  .new-drops-bottom-wrap {
+    margin-top: 48px;
+    text-align: center;
+  }
+
+  .new-drops-bottom-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 36px;
+    background: #000000;
+    color: #ffffff;
+    border-radius: var(--radius-md);
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    text-decoration: none;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+    transition: all 0.2s ease;
+  }
+
+  .new-drops-bottom-btn:hover {
+    background: #1f2937;
+    transform: scale(1.02);
+  }
+{%- endstyle -%}
+
+<div class="new-drops-section-{{ section.id }}">
+  <div class="new-drops-container">
+    
+    <!-- Header -->
+    <div class="new-drops-header">
+      <div>
+        <h2 class="new-drops-title">
+          NEW <span>DROPS</span>
+        </h2>
+        <p class="new-drops-subtitle">
+          {{ section.settings.subtitle | default: 'Latest arrivals & newly released football kits.' }}
+        </p>
+      </div>
+
+      <a href="{{ section.settings.collection.url | default: '/collections/all' }}" class="new-drops-view-link">
+        View All Kits
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Product Grid -->
+    {%- assign target_collection = section.settings.collection -%}
+    {%- if target_collection == blank or target_collection.all_products_count == 0 -%}
+      {%- assign target_collection = collections['all'] -%}
+    {%- endif -%}
+    {%- assign product_limit = section.settings.products_to_show | default: 10 -%}
+
+    <div class="new-drops-grid">
+      {%- if target_collection != blank and target_collection.products.size > 0 -%}
+        {%- for product in target_collection.products limit: product_limit -%}
+          <div>
+            {% render 'card-product',
+              card_product: product,
+              media_aspect_ratio: 'adapt',
+              image_shape: 'default',
+              show_secondary_image: true,
+              show_vendor: false,
+              show_rating: false,
+              section_id: section.id,
+              quick_add: 'none'
+            %}
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        <div class="center" style="grid-column: 1 / -1; padding: 40px 0; text-align: center;">
+          <p style="font-size: 15px; color: #6b7280;">No products found in this collection.</p>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <!-- Bottom Button -->
+    <div class="new-drops-bottom-wrap">
+      <a href="{{ section.settings.collection.url | default: '/collections/all' }}" class="new-drops-bottom-btn">
+        View All Kits & Collections
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "New Drops Grid",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Latest arrivals & newly released football kits."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 4,
+      "max": 20,
+      "step": 2,
+      "default": 10,
+      "label": "Products to show"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "New Drops Grid"
+    }
+  ]
+}
+{% endschema %}

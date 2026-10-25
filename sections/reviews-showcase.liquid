@@ -1,0 +1,805 @@
+{%- style -%}
+  .jv-reviews-section-{{ section.id }} {
+    --jv-bg: #ffffff;
+    --jv-card: #ffffff;
+    --jv-accent: #111827;
+    --jv-text: #1b1c1c;
+    --jv-muted: #6b7280;
+    --jv-stars: #f59e0b;
+    --jv-radius: 16px;
+
+    background: var(--jv-bg);
+    color: var(--jv-text);
+    padding-top: {{ section.settings.padding_top | default: 50 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | default: 70 }}px;
+    overflow: hidden;
+    width: 100%;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  .jv-container {
+    width: min(100% - 32px, 1360px);
+    margin: 0 auto;
+  }
+
+  .jv-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 30px;
+    margin-bottom: 30px;
+  }
+
+  .jv-heading-area {
+    max-width: 650px;
+  }
+
+  .jv-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border: 1px solid var(--jv-accent);
+    color: var(--jv-accent);
+    font-family: var(--font-body-family, "Inter", sans-serif);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    border-radius: 6px;
+  }
+
+  .jv-dot {
+    width: 6px;
+    height: 6px;
+    background: #25D366;
+    border-radius: 50%;
+    animation: jvPulse 1.7s infinite;
+  }
+
+  @keyframes jvPulse {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: .35;
+      transform: scale(.7);
+    }
+  }
+
+  .jv-heading {
+    margin: 0;
+    font-family: var(--font-heading-family, "Lexend", sans-serif);
+    font-size: clamp(28px, 3.8vw, 46px);
+    line-height: 1.08;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    color: #111827;
+  }
+
+  .jv-stats {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .jv-stat {
+    min-width: 130px;
+    padding: 0 20px;
+    border-left: 1px solid #e5e7eb;
+  }
+
+  .jv-stat:first-child {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .jv-stat-number {
+    display: block;
+    font-family: var(--font-heading-family, "Lexend", sans-serif);
+    font-size: 30px;
+    line-height: 1;
+    font-weight: 800;
+    color: #111827;
+  }
+
+  .jv-stat-label {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--font-body-family, "Inter", sans-serif);
+    color: var(--jv-muted);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+  }
+
+  .jv-rating-stars {
+    color: #f59e0b;
+    letter-spacing: 2px;
+    font-size: 13px;
+    margin-top: 5px;
+    white-space: nowrap;
+  }
+
+  .jv-controls {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    justify-content: flex-end;
+  }
+
+  .jv-arrow {
+    width: 42px;
+    height: 42px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    color: var(--jv-text);
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: all .25s ease;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+
+  .jv-arrow:hover {
+    color: #ffffff;
+    background: var(--jv-accent);
+    border-color: var(--jv-accent);
+    transform: scale(1.05);
+  }
+
+  .jv-carousel-wrap {
+    position: relative;
+  }
+
+  .jv-carousel {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    padding-bottom: 12px;
+    padding-top: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .jv-carousel::-webkit-scrollbar {
+    display: none;
+  }
+
+  .jv-card {
+    flex: 0 0 310px;
+    scroll-snap-align: start;
+    background: var(--jv-card);
+    border: 1px solid #efeded;
+    border-radius: var(--jv-radius);
+    overflow: hidden;
+    transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.04);
+  }
+
+  .jv-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #CCFF00;
+    opacity: 0;
+    transition: .3s ease;
+    z-index: 2;
+  }
+
+  .jv-card:hover {
+    transform: translateY(-5px);
+    border-color: #d1d5db;
+    box-shadow: 0 14px 28px -10px rgba(0, 0, 0, 0.1);
+  }
+
+  .jv-card:hover::before {
+    opacity: 1;
+  }
+
+  .jv-photo {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #f3f4f6;
+  }
+
+  .jv-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .5s ease;
+  }
+
+  .jv-card:hover .jv-photo img {
+    transform: scale(1.05);
+  }
+
+  .jv-verified {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    background: #111827;
+    color: #ffffff;
+    padding: 4px 8px;
+    font-family: var(--font-body-family, "Inter", sans-serif);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+
+  .jv-verified svg {
+    color: #25D366;
+  }
+
+  .jv-content {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    gap: 16px;
+  }
+
+  .jv-review-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .jv-stars {
+    color: #f59e0b;
+    font-size: 14px;
+    letter-spacing: 2px;
+  }
+
+  .jv-date {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--jv-muted);
+  }
+
+  .jv-review-text {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: #374151;
+    margin: 0;
+    font-style: italic;
+  }
+
+  .jv-customer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 14px;
+    border-top: 1px solid #f3f4f6;
+  }
+
+  .jv-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #111827;
+    color: #ffffff;
+    font-family: var(--font-heading-family, "Lexend", sans-serif);
+    font-weight: 800;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .jv-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .jv-customer-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .jv-name {
+    font-family: var(--font-heading-family, "Lexend", sans-serif);
+    font-size: 13px;
+    font-weight: 800;
+    color: #111827;
+    text-transform: uppercase;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .jv-team {
+    display: inline-block;
+    color: #111827;
+    background: #f3f4f6;
+    padding: 3px 8px;
+    font-family: var(--font-body-family, "Inter", sans-serif);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    white-space: nowrap;
+    border-radius: 4px;
+    letter-spacing: .5px;
+  }
+
+  .jv-progress-area {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 24px;
+  }
+
+  .jv-progress-text {
+    font-family: var(--font-body-family, "Inter", sans-serif);
+    font-size: 12px;
+    font-weight: 700;
+    color: #374151;
+    white-space: nowrap;
+  }
+
+  .jv-progress-bar {
+    flex: 1;
+    height: 3px;
+    background: #f1f5f9;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .jv-progress-fill {
+    height: 100%;
+    background: var(--jv-accent);
+    border-radius: 2px;
+    transition: width .25s ease-out;
+  }
+
+  .jv-total {
+    color: var(--jv-muted);
+    font-family: var(--font-body-family, "Inter", sans-serif);
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    letter-spacing: .4px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .jv-reviews-section-{{ section.id }} {
+      padding-top: 40px;
+      padding-bottom: 45px;
+    }
+
+    .jv-header {
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    .jv-heading {
+      font-size: 32px;
+    }
+
+    .jv-stats {
+      margin-top: 18px;
+      width: 100%;
+    }
+
+    .jv-stat {
+      min-width: 0;
+      flex: 1;
+      padding: 0 10px;
+    }
+
+    .jv-stat:first-child {
+      padding-left: 0;
+    }
+
+    .jv-stat-number {
+      font-size: 22px;
+    }
+
+    .jv-stat-label {
+      font-size: 10px;
+    }
+
+    .jv-controls {
+      display: none;
+    }
+
+    .jv-card {
+      flex: 0 0 270px;
+    }
+
+    .jv-content {
+      padding: 15px;
+    }
+
+    .jv-review-text {
+      font-size: 13px;
+    }
+  }
+{%- endstyle -%}
+
+<section
+  id="reviews"
+  class="jv-reviews-section-{{ section.id }}"
+  data-api-url="{{ section.settings.api_url | escape }}"
+>
+  <div class="jv-container">
+
+    <!-- HEADER -->
+    <div class="jv-header">
+      <div class="jv-heading-area">
+        <div class="jv-label">
+          <span class="jv-dot"></span>
+          {{ section.settings.label | default: 'VERIFIED REVIEWS' }}
+        </div>
+        <h2 class="jv-heading">
+          {{ section.settings.heading | default: 'WHAT OUR FANS SAY' }}
+        </h2>
+      </div>
+
+      <!-- STATS -->
+      <div class="jv-stats">
+        <div class="jv-stat">
+          <span class="jv-stat-number">{{ section.settings.average_rating | default: '4.8' }}</span>
+          <div class="jv-rating-stars">★★★★★</div>
+          <span class="jv-stat-label">Average Rating</span>
+        </div>
+
+        <div class="jv-stat">
+          <span class="jv-stat-number">{{ section.settings.total_verified | default: '100%' }}</span>
+          <span class="jv-stat-label">Verified Buyers</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARROW CONTROLS -->
+    <div class="jv-controls">
+      <button
+        type="button"
+        class="jv-arrow jv-prev-btn"
+        aria-label="Previous reviews"
+      >
+        &#8592;
+      </button>
+      <button
+        type="button"
+        class="jv-arrow jv-next-btn"
+        aria-label="Next reviews"
+      >
+        &#8594;
+      </button>
+    </div>
+
+    <!-- CAROUSEL WRAPPER -->
+    <div class="jv-carousel-wrap">
+      <div class="jv-carousel" id="JvReviewsCarousel-{{ section.id }}">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign review_img = ''
+            if block.settings.image != blank
+              assign review_img = block.settings.image | image_url: width: 800
+            elsif block.settings.image_url != blank
+              assign review_img = block.settings.image_url
+            else
+              assign review_img = 'https://images.unsplash.com/photo-1541002442-9f5985aa8023?w=800&auto=format&fit=crop'
+            endif
+
+            assign initials = '6Y'
+            if block.settings.customer_name != blank
+              assign parts = block.settings.customer_name | split: ' '
+              if parts.size >= 2
+                assign first_char = parts[0] | slice: 0, 1 | upcase
+                assign second_char = parts[1] | slice: 0, 1 | upcase
+                assign initials = first_char | append: second_char
+              else
+                assign initials = block.settings.customer_name | slice: 0, 2 | upcase
+              endif
+            endif
+
+            assign rating_num = block.settings.rating | default: 5
+          -%}
+
+          <article class="jv-card" {{ block.shopify_attributes }}>
+            <!-- PHOTO & VERIFIED BADGE -->
+            <div class="jv-photo">
+              <img
+                src="{{ review_img }}"
+                alt="{{ block.settings.customer_name | escape }}"
+                loading="lazy"
+                width="600"
+                height="450"
+              >
+              <span class="jv-verified">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                Verified
+              </span>
+            </div>
+
+            <!-- CONTENT -->
+            <div class="jv-content">
+              <div>
+                <div class="jv-review-top">
+                  <div class="jv-stars">
+                    {%- for i in (1..rating_num) -%}★{%- endfor -%}
+                  </div>
+                  <div class="jv-date">{{ block.settings.date | default: 'Recent' }}</div>
+                </div>
+
+                <p class="jv-review-text">
+                  &ldquo;{{ block.settings.text }}&rdquo;
+                </p>
+              </div>
+
+              <!-- CUSTOMER FOOTER -->
+              <div class="jv-customer">
+                <div class="jv-avatar">
+                  <span>{{ initials }}</span>
+                </div>
+
+                <div class="jv-customer-info">
+                  <span class="jv-name">{{ block.settings.customer_name }}</span>
+                </div>
+
+                <span class="jv-team">
+                  {{ block.settings.team | default: '6YARD' }}
+                </span>
+              </div>
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <!-- PROGRESS BAR FOOTER -->
+    <div class="jv-progress-area">
+      <span class="jv-progress-text">
+        <span class="jv-cur-idx">1</span> / <span class="jv-tot-idx">{{ section.blocks.size }}</span>
+      </span>
+
+      <div class="jv-progress-bar">
+        <div class="jv-progress-fill" style="width: 14%;"></div>
+      </div>
+
+      <span class="jv-total">
+        {{ section.blocks.size }} VERIFIED REVIEWS
+      </span>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  (function() {
+    const sectionEl = document.querySelector('.jv-reviews-section-{{ section.id }}');
+    if (!sectionEl) return;
+
+    const carousel = sectionEl.querySelector('.jv-carousel');
+    const prevBtn = sectionEl.querySelector('.jv-prev-btn');
+    const nextBtn = sectionEl.querySelector('.jv-next-btn');
+    const progressFill = sectionEl.querySelector('.jv-progress-fill');
+    const curIdxEl = sectionEl.querySelector('.jv-cur-idx');
+    const totIdxEl = sectionEl.querySelector('.jv-tot-idx');
+    if (!carousel) return;
+
+    function getCards() {
+      return carousel.querySelectorAll('.jv-card');
+    }
+
+    function updateProgress() {
+      const cards = getCards();
+      const count = cards.length;
+      if (totIdxEl) totIdxEl.textContent = count;
+
+      const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+      const percentage = maxScroll > 0 ? (carousel.scrollLeft / maxScroll) * 100 : 0;
+      if (progressFill) {
+        progressFill.style.width = Math.min(100, Math.max(8, percentage)) + '%';
+      }
+
+      const card = cards[0];
+      const cardWidth = card ? card.offsetWidth + 16 : 326;
+      const index = Math.round(carousel.scrollLeft / cardWidth) + 1;
+      if (curIdxEl) {
+        curIdxEl.textContent = Math.min(Math.max(1, index), count);
+      }
+    }
+
+    carousel.addEventListener('scroll', updateProgress, { passive: true });
+
+    function scrollByDirection(direction) {
+      const card = carousel.querySelector('.jv-card');
+      const cardWidth = card ? card.offsetWidth + 16 : 326;
+      carousel.scrollBy({
+        left: cardWidth * 1.5 * direction,
+        behavior: 'smooth'
+      });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function() {
+        scrollByDirection(-1);
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function() {
+        scrollByDirection(1);
+      });
+    }
+
+    // Autoplay functionality matching Next.js
+    let isPaused = false;
+    sectionEl.addEventListener('mouseenter', function() { isPaused = true; });
+    sectionEl.addEventListener('mouseleave', function() { isPaused = false; });
+
+    setInterval(function() {
+      if (isPaused) return;
+      const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+      if (carousel.scrollLeft >= maxScroll - 10) {
+        carousel.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        const card = carousel.querySelector('.jv-card');
+        const step = card ? card.offsetWidth + 16 : 326;
+        carousel.scrollBy({ left: step, behavior: 'smooth' });
+      }
+    }, 4500);
+
+    // Initial progress setup
+    updateProgress();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Customer Reviews Showcase",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Top Label",
+      "default": "VERIFIED REVIEWS"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "WHAT OUR FANS SAY"
+    },
+    {
+      "type": "text",
+      "id": "average_rating",
+      "label": "Average Rating",
+      "default": "4.8"
+    },
+    {
+      "type": "text",
+      "id": "total_verified",
+      "label": "Verified Percentage",
+      "default": "100%"
+    },
+    {
+      "type": "text",
+      "id": "api_url",
+      "label": "Optional API Endpoint URL"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 68
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Customer Review",
+      "settings": [
+        {
+          "type": "text",
+          "id": "customer_name",
+          "label": "Customer Name",
+          "default": "Sharath"
+        },
+        {
+          "type": "text",
+          "id": "team",
+          "label": "Team / Club Badge",
+          "default": "BAYERN"
+        },
+        {
+          "type": "text",
+          "id": "product_name",
+          "label": "Jersey / Product Name",
+          "default": "Bayern Munich Away Kit"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Star Rating",
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "date",
+          "label": "Date",
+          "default": "Oct 2026"
+        },
+        {
+          "type": "text",
+          "id": "image_url",
+          "label": "Cloudinary / External Photo URL"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Or Select Theme Image"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Review Text",
+          "default": "Ordered the Musiala Away kit. Honestly it's pretty good, I like it. Stitching is perfect and fabric is super breathable."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer Reviews Showcase",
+      "settings": {
+        "heading": "WHAT OUR FANS SAY",
+        "label": "VERIFIED REVIEWS"
+      }
+    }
+  ]
+}
+{% endschema %}

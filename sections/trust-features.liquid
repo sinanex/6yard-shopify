@@ -1,0 +1,111 @@
+<div class="tf-bar-section">
+  <div class="tf-bar-container">
+    <div class="tf-grid">
+      {%- for block in section.blocks -%}
+        <div class="tf-item" {{ block.shopify_attributes }}>
+          <div class="tf-icon-box">
+            {%- case block.settings.icon -%}
+              {%- when 'truck' -%}
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="1" y="3" width="15" height="13"></rect>
+                  <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                  <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                  <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                </svg>
+              {%- when 'shield' -%}
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              {%- when 'payment' -%}
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                  <line x1="1" y1="10" x2="23" y2="10"></line>
+                </svg>
+              {%- else -%}
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 14 14"></polyline>
+                </svg>
+            {%- endcase -%}
+          </div>
+          <div class="tf-text-wrap">
+            <div class="tf-title">{{ block.settings.title }}</div>
+            <div class="tf-desc">{{ block.settings.description }}</div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Trust Features Bar",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Trust Item",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "truck", "label": "Fast Delivery / Truck" },
+            { "value": "shield", "label": "Authenticity / Shield" },
+            { "value": "payment", "label": "Payment / Card" }
+          ],
+          "default": "truck"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "SPEED POST DELIVERY"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description",
+          "default": "Real-time Speed Post tracking across India"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust Features Bar",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "truck",
+            "title": "SPEED POST DELIVERY",
+            "description": "Pan-India express delivery with tracking"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "shield",
+            "title": "100% QUALITY CHECKED",
+            "description": "Master-grade breathable athletic fabric"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "payment",
+            "title": "SECURE UPI & CARDS",
+            "description": "Zero hidden fees with instant payment verification"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

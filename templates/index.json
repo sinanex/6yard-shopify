@@ -1,0 +1,289 @@
+{
+  "sections": {
+    "campaign_hero": {
+      "type": "campaign-hero",
+      "blocks": {
+        "slide_1": {
+          "type": "slide",
+          "settings": {
+            "heading": "PREMIUM FOOTBALL KITS",
+            "subheading": "Authentic fan & player edition jerseys with pan-India Speed Post delivery.",
+            "button_label": "EXPLORE ALL KITS",
+            "button_link": "shopify://collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "slide_1"
+      ],
+      "settings": {
+        "desktop_height": 640,
+        "mobile_height": 480,
+        "autoplay": true,
+        "autoplay_speed": 6
+      }
+    },
+    "trust_features": {
+      "type": "trust-features",
+      "blocks": {
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "icon": "truck",
+            "title": "SPEED POST DELIVERY",
+            "description": "Pan-India express delivery with real-time tracking"
+          }
+        },
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "icon": "shield",
+            "title": "100% QUALITY CHECKED",
+            "description": "Master-grade breathable athletic fabric"
+          }
+        },
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "icon": "payment",
+            "title": "100% ONLINE PAYMENTS",
+            "description": "Instant verification via Razorpay (UPI, GPay, Cards)"
+          }
+        }
+      },
+      "block_order": [
+        "feature_1",
+        "feature_2",
+        "feature_3"
+      ],
+      "settings": {}
+    },
+    "collections_coverflow": {
+      "type": "collections-coverflow",
+      "blocks": {
+        "col_1": {
+          "type": "collection_item",
+          "settings": {
+            "title": "RETRO CLASSICS"
+          }
+        },
+        "col_2": {
+          "type": "collection_item",
+          "settings": {
+            "title": "CLUB EDITIONS"
+          }
+        },
+        "col_3": {
+          "type": "collection_item",
+          "settings": {
+            "title": "FIVE SLEEVE SPECIALS"
+          }
+        },
+        "col_4": {
+          "type": "collection_item",
+          "settings": {
+            "title": "WORLD CUP 2026"
+          }
+        },
+        "col_5": {
+          "type": "collection_item",
+          "settings": {
+            "title": "FULL SLEEVE JERSEYS"
+          }
+        }
+      },
+      "block_order": [
+        "col_1",
+        "col_2",
+        "col_3",
+        "col_4",
+        "col_5"
+      ],
+      "settings": {
+        "heading": "COLLECTIONS"
+      }
+    },
+    "new_drops": {
+      "type": "new-drops",
+      "settings": {
+        "subtitle": "Latest arrivals & newly released football kits.",
+        "products_to_show": 10,
+        "padding_top": 48,
+        "padding_bottom": 64
+      }
+    },
+    "reviews_showcase": {
+      "type": "reviews-showcase",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "customer_name": "Sharath",
+            "team": "BAYERN",
+            "product_name": "BAYERN MUNICH 2026-27 AWAY KIT",
+            "rating": 5,
+            "date": "Oct 2026",
+            "image_url": "https://res.cloudinary.com/weluylda/image/upload/v1791025615/kitbay/reviews/tcnz9xdrdb6hlasrae9b.jpg",
+            "text": "Ordered the Musiala Away kit. Honestly it's pretty good, I like it. Stitching is perfect and fabric is super breathable."
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "customer_name": "Advait Mitra",
+            "team": "BAYERN",
+            "product_name": "BAYERN MUNICH AWAY KIT (MUSIALA)",
+            "rating": 5,
+            "date": "Aug 2026",
+            "image_url": "https://res.cloudinary.com/weluylda/image/upload/v1787859040/kitbay/reviews/peibvzfbrcc4zlota6rh.jpg",
+            "text": "Very good fitting and material is also very good, impressive quality. Delivered quickly in pristine packaging."
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "customer_name": "Niyaz",
+            "team": "ARSENAL",
+            "product_name": "ARSENAL 2009/10 THIRD KIT",
+            "rating": 5,
+            "date": "Aug 2026",
+            "image_url": "https://res.cloudinary.com/weluylda/image/upload/v1785563003/kitbay/reviews/ckbhjoph8f1yusbp02qv.jpg",
+            "text": "Affordable price best Quality jersey! Loved the fabric and retro embroidery. Thanks 6YARD! Will definitely order again."
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "customer_name": "Ishsn",
+            "team": "BARCA",
+            "product_name": "FC BARCA x TRAVIS SCOTT RETRO",
+            "rating": 5,
+            "date": "Sep 2026",
+            "image_url": "https://res.cloudinary.com/weluylda/image/upload/v1783774132/kitbay/products/fwqv87oliyuhfsvd0hes.jpg",
+            "text": "Barca x Travis Scott retro edition is absolute fire! Print quality and details are 100% on point. Highly recommend 6YARD!"
+          }
+        },
+        "review_5": {
+          "type": "review",
+          "settings": {
+            "customer_name": "Kashish",
+            "team": "FRANCE",
+            "product_name": "FRANCE RETRO ZIDANE SPECIAL EDITION",
+            "rating": 5,
+            "date": "Sep 2026",
+            "image_url": "https://res.cloudinary.com/weluylda/image/upload/v1786875700/kitbay/products/nqyk2ptiov49kenpvq19.jpg",
+            "text": "Got it for my brother, he absolutely loved it! Overall the quality was amazing and the badges look totally authentic."
+          }
+        },
+        "review_6": {
+          "type": "review",
+          "settings": {
+            "customer_name": "Laiq",
+            "team": "SPAIN",
+            "product_name": "SPAIN 2026 WORLD CUP CHAMPION AWAY",
+            "rating": 5,
+            "date": "Aug 2026",
+            "image_url": "https://res.cloudinary.com/dyrak93xm/image/upload/v1792405357/kitbay/products/nfodfgycgecwmejgvatc.jpg",
+            "text": "Excellent quality jerseys at a great price. Fast delivery across India and the fit is perfect. Highly recommended store!"
+          }
+        },
+        "review_7": {
+          "type": "review",
+          "settings": {
+            "customer_name": "Rajan Kumar",
+            "team": "AC MILAN",
+            "product_name": "AC MILAN SPECIAL EDITION (RONALDINHO)",
+            "rating": 5,
+            "date": "Sep 2026",
+            "image_url": "https://res.cloudinary.com/weluylda/image/upload/v1789132341/kitbay/reviews/hddg4t1fbd56uysnx65p.jpg",
+            "text": "Special edition Ronaldinho embroidery jersey! The golden details and classic fabric feel so authentic."
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "review_5",
+        "review_6",
+        "review_7"
+      ],
+      "settings": {
+        "label": "VERIFIED REVIEWS",
+        "heading": "WHAT OUR FANS SAY",
+        "average_rating": "4.8",
+        "total_verified": "100%",
+        "padding_top": 52,
+        "padding_bottom": 68
+      }
+    },
+    "home_faq": {
+      "type": "home-faq",
+      "blocks": {
+        "faq_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long does delivery take across India and how can I track it?",
+            "answer": "Orders are processed within 2-4 business days. Standard express delivery takes 5-7 business days across India. Once dispatched, you will receive real-time Speed Post tracking details via WhatsApp and SMS."
+          }
+        },
+        "faq_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do I pick the right size for football jerseys?",
+            "answer": "Our jerseys follow athletic standard sizing (S to XXL). For fan editions, order your standard T-shirt size. For a relaxed fit or player-version tighter cuts, we recommend picking one size up. Check the size chart on any product page for exact chest measurements."
+          }
+        },
+        "faq_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is the quality and material of 6YARD jerseys?",
+            "answer": "All our kits are master-quality player and fan editions crafted with 100% high-breathability Dri-FIT and AEROREADY fabric, durable heat-pressed or embroidered club crests, and authentic sponsor details."
+          }
+        },
+        "faq_4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do I track my order once it has been dispatched?",
+            "answer": "Once dispatched, you will receive a Speed Post tracking consignment number via SMS and email. You can also click 'Track Order' in our website header to monitor your shipment in real-time."
+          }
+        },
+        "faq_5": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What payment options are available on 6YARD?",
+            "answer": "We accept 100% secure online prepaid payments via Razorpay. You can pay instantly using UPI (Google Pay, PhonePe, Paytm, CRED, BHIM), Debit & Credit Cards (Visa, Mastercard, RuPay), and Net Banking. All online orders receive instant automatic payment verification and express Speed Post dispatch."
+          }
+        },
+        "faq_6": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How should I wash and care for my jerseys to make them last?",
+            "answer": "Machine wash inside out in cold water on a delicate cycle or gently hand wash. Never iron directly over heat-transferred badges or names, and always hang dry in the shade."
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5",
+        "faq_6"
+      ],
+      "settings": {
+        "heading": "FREQUENTLY ASKED QUESTIONS",
+        "subtitle": "Everything you need to know about ordering, delivery, sizing and authenticity."
+      }
+    }
+  },
+  "order": [
+    "campaign_hero",
+    "trust_features",
+    "collections_coverflow",
+    "new_drops",
+    "reviews_showcase",
+    "home_faq"
+  ]
+}
