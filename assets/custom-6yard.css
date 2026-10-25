@@ -38,32 +38,70 @@ body, p, span, a, input, select, button, textarea {
 /* ==========================================================================
    HEADER & NAVIGATION BAR ENHANCEMENTS
    ========================================================================== */
+/* ==========================================================================
+   OFFICIAL 6YARD UNIFIED APP BAR (ALL SCREENS)
+   ========================================================================== */
 .header-wrapper {
-  background: rgba(255, 255, 255, 0.92) !important;
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
-  border-bottom: 1px solid #f1f5f9;
-  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.96) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 100 !important;
+  transition: all 0.25s ease;
+}
+
+.header {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+@media screen and (max-width: 989px) {
+  .header {
+    display: grid !important;
+    grid-template-columns: 48px 1fr auto !important;
+    align-items: center !important;
+    padding: 8px 16px !important;
+  }
 }
 
 .header__heading-link {
   display: flex !important;
-  align-items: center;
+  align-items: center !important;
+  justify-content: center;
+  text-decoration: none;
+}
+
+@media screen and (min-width: 990px) {
+  .header__heading-link {
+    justify-content: flex-start;
+  }
 }
 
 .header__heading-logo {
-  max-height: 40px;
-  width: auto;
-  object-fit: contain;
+  height: 42px !important;
+  max-height: 42px !important;
+  width: auto !important;
+  object-fit: contain !important;
+  display: block;
+  image-rendering: -webkit-optimize-contrast;
+  transition: transform 0.2s ease;
+}
+
+.header__heading-link:hover .header__heading-logo {
+  transform: scale(1.02);
 }
 
 .header__menu-item {
-  font-family: var(--font-sans) !important;
-  font-size: 11px !important;
-  font-weight: 700 !important;
+  font-family: var(--font-h, 'Lexend', sans-serif) !important;
+  font-size: 11.5px !important;
+  font-weight: 800 !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.16em !important;
-  color: #374151 !important;
+  letter-spacing: 0.12em !important;
+  color: #111827 !important;
+  padding: 8px 16px !important;
   transition: color 0.2s ease !important;
 }
 
@@ -72,37 +110,71 @@ body, p, span, a, input, select, button, textarea {
   color: #000000 !important;
 }
 
+.header__icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.header__icon {
+  width: 42px !important;
+  height: 42px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #0f172a !important;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, transform 0.15s ease, color 0.2s ease;
+}
+
+.header__icon:hover {
+  background-color: #f1f5f9;
+  color: #000000 !important;
+}
+
+.header__icon:active {
+  transform: scale(0.94);
+}
+
 .track-order-pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 14px;
-  background: #f3f4f6;
+  padding: 6px 14px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
   border-radius: var(--radius-full);
-  font-size: 10px;
-  font-weight: 700;
+  font-family: var(--font-h, 'Lexend', sans-serif);
+  font-size: 10.5px;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: #111827;
+  letter-spacing: 0.08em;
+  color: #0f172a;
   transition: all 0.2s ease;
   text-decoration: none;
+  margin-right: 4px;
 }
 
 .track-order-pill:hover {
-  background: #000000;
-  color: #ffffff;
+  background: #111827;
+  color: #CCFF00;
+  border-color: #111827;
+  transform: translateY(-1px);
 }
 
 /* Cart Bubble Count */
 .cart-count-bubble {
-  background-color: #000000 !important;
-  color: #ffffff !important;
-  font-size: 9px !important;
-  font-weight: 800 !important;
-  min-width: 17px !important;
-  height: 17px !important;
+  background-color: #111827 !important;
+  color: #CCFF00 !important;
+  font-family: var(--font-h, 'Lexend', sans-serif) !important;
+  font-size: 9.5px !important;
+  font-weight: 900 !important;
+  min-width: 18px !important;
+  height: 18px !important;
   border-radius: 9999px !important;
-  line-height: 17px !important;
+  line-height: 18px !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+  border: 1.5px solid #ffffff !important;
 }
 
 /* ==========================================================================

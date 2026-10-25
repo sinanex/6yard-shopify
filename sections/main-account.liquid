@@ -1,32 +1,6 @@
 {{ 'customer.css' | asset_url | stylesheet_tag }}
 
 <div class="customer-account-wrapper page-width">
-  <!-- Branded Customer App Bar -->
-  <div class="customer-appbar">
-    <div class="customer-appbar__brand">
-      <a href="{{ routes.root_url }}" aria-label="6YARD Home">
-        <img
-          src="{{ 'logo.png' | asset_url }}"
-          alt="6YARD Football Kits"
-          class="customer-appbar__logo"
-          width="130"
-          height="42"
-          loading="eager"
-        >
-      </a>
-      <span class="customer-appbar__badge">OFFICIAL STORE</span>
-    </div>
-    <div class="customer-appbar__actions">
-      <a href="{{ routes.all_products_collection_url }}" class="customer-appbar__shop-btn">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-        <span>Shop Kits</span>
-      </a>
-      <a href="{{ routes.account_logout_url }}" class="customer-appbar__logout-btn">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-        <span>Sign Out</span>
-      </a>
-    </div>
-  </div>
 
   <!-- Profile Hero Header -->
   <div class="customer-profile-hero">

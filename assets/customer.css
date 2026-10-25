@@ -2,82 +2,13 @@
    6YARD CUSTOMER PORTAL & AUTH STYLING
    ========================================================================== */
 
-/* Customer App Bar */
-.customer-appbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 0;
-  margin-bottom: 24px;
-  border-bottom: 1px solid #f1f5f9;
+.customer-account-wrapper,
+.customer-order-page,
+.customer-addresses-page {
+  padding-top: 28px;
+  padding-bottom: 60px;
 }
 
-.customer-appbar__brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.customer-appbar__logo {
-  height: 38px;
-  width: auto;
-  object-fit: contain;
-  display: block;
-}
-
-.customer-appbar__badge {
-  font-family: var(--font-h, 'Lexend', sans-serif);
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  color: #0f172a;
-  background: #f1f5f9;
-  border: 1px solid #e2e8f0;
-  padding: 3px 8px;
-  border-radius: 4px;
-}
-
-.customer-appbar__actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.customer-appbar__shop-btn,
-.customer-appbar__logout-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-h, 'Lexend', sans-serif);
-  font-size: 12px;
-  font-weight: 700;
-  text-decoration: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-}
-
-.customer-appbar__shop-btn {
-  background: #111827;
-  color: #ffffff;
-}
-
-.customer-appbar__shop-btn:hover {
-  background: #000000;
-  color: #CCFF00;
-}
-
-.customer-appbar__logout-btn {
-  background: #f8fafc;
-  color: #64748b;
-  border: 1px solid #e2e8f0;
-}
-
-.customer-appbar__logout-btn:hover {
-  background: #fee2e2;
-  color: #dc2626;
-  border-color: #fecaca;
-}
 
 /* Profile Hero Header */
 .customer-profile-hero {

@@ -1,28 +1,6 @@
 {{ 'customer.css' | asset_url | stylesheet_tag }}
 
 <div class="customer-order-page page-width">
-  <!-- Branded App Bar -->
-  <div class="customer-appbar">
-    <div class="customer-appbar__brand">
-      <a href="{{ routes.root_url }}">
-        <img
-          src="{{ 'logo.png' | asset_url }}"
-          alt="6YARD Football Kits"
-          class="customer-appbar__logo"
-          width="130"
-          height="42"
-          loading="eager"
-        >
-      </a>
-      <span class="customer-appbar__badge">ORDER DETAILS</span>
-    </div>
-    <div class="customer-appbar__actions">
-      <a href="{{ routes.account_url }}" class="customer-appbar__shop-btn">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
-        <span>Back to My Orders</span>
-      </a>
-    </div>
-  </div>
 
   <div class="order-detail-header">
     <div class="order-detail-header__left">

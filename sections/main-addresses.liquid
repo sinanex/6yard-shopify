@@ -1,27 +1,6 @@
 {{ 'customer.css' | asset_url | stylesheet_tag }}
 
 <div class="customer-addresses-page page-width">
-  <div class="customer-appbar">
-    <div class="customer-appbar__brand">
-      <a href="{{ routes.root_url }}">
-        <img
-          src="{{ 'logo.png' | asset_url }}"
-          alt="6YARD Football Kits"
-          class="customer-appbar__logo"
-          width="130"
-          height="42"
-          loading="eager"
-        >
-      </a>
-      <span class="customer-appbar__badge">SAVED ADDRESSES</span>
-    </div>
-    <div class="customer-appbar__actions">
-      <a href="{{ routes.account_url }}" class="customer-appbar__shop-btn">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
-        <span>Back to Account</span>
-      </a>
-    </div>
-  </div>
 
   <div class="addresses-header">
     <h1 class="addresses-title">Delivery Addresses</h1>
