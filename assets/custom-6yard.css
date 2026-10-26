@@ -60,10 +60,41 @@ body, p, span, a, input, select, button, textarea {
 
 @media screen and (max-width: 989px) {
   .header {
-    display: grid !important;
-    grid-template-columns: 48px 1fr auto !important;
+    position: relative !important;
+    display: flex !important;
     align-items: center !important;
+    justify-content: space-between !important;
     padding: 8px 16px !important;
+    min-height: 56px !important;
+  }
+
+  .header__heading {
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: center !important;
+    width: auto !important;
+    pointer-events: auto !important;
+    z-index: 2 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .header__heading-link {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+  }
+
+  .header__heading-logo-wrapper {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 }
 
