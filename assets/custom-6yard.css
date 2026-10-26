@@ -1320,3 +1320,20 @@ cart-drawer.active ~ * .whatsapp-float-btn,
   align-items: center;
   justify-content: center;
 }
+
+/* Hide Razorpay Magic Trust Badge ("All payment modes and COD available Secured by") */
+.razorpay-magic-badge-container,
+[class*="razorpay-magic-badge"],
+[class*="rzp-badge"],
+.rzp-badge-text,
+.rzp-secured-text,
+#magic-checkout-badge,
+.magic-checkout-badge-container,
+div[id*="magic-checkout-badge"],
+div[class*="magic-checkout-badge"] {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
