@@ -67,10 +67,58 @@
             "collection": "all-collection",
             "title": "FIVE SLEEVE SPECIALS"
           }
+        },
+        "col_2": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "full-sleev",
+            "title": "FULL SLEEVE JERSEYS"
+          }
+        },
+        "col_3": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "collor",
+            "title": "COLLAR RETRO & MODERN"
+          }
+        },
+        "col_4": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "embroidery",
+            "title": "EMBROIDERY EDITION"
+          }
+        },
+        "col_5": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "ipl-jersey",
+            "title": "IPL CRICKET KITS"
+          }
+        },
+        "col_6": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "polo-club-t-shirts",
+            "title": "POLO CLUB T-SHIRTS"
+          }
+        },
+        "col_7": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "all-collection-1",
+            "title": "ALL KITS & COLLECTIONS"
+          }
         }
       },
       "block_order": [
-        "col_1"
+        "col_1",
+        "col_2",
+        "col_3",
+        "col_4",
+        "col_5",
+        "col_6",
+        "col_7"
       ],
       "settings": {
         "heading": "FEATURED COLLECTIONS",
