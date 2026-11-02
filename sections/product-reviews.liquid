@@ -898,14 +898,14 @@
     <div class="pr-summary-card">
       <!-- Col 1: Overall Rating -->
       <div class="pr-score-col">
-        <div class="pr-big-score" id="pr-avg-score">4.9</div>
-        <div class="pr-stars" id="pr-avg-stars">★★★★★</div>
+        <div class="pr-big-score" id="pr-avg-score">0.0</div>
+        <div class="pr-stars" id="pr-avg-stars">☆☆☆☆☆</div>
         <div class="pr-count-label">Based on <span id="pr-total-count">0</span> reviews</div>
-        <div class="pr-recommend-tag">
+        <div class="pr-recommend-tag" id="pr-recommend-badge" style="display: none;">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="20 6 9 17 4 12"></polyline>
           </svg>
-          100% Recommend this item
+          <span id="pr-recommend-pct">100%</span> Recommend this item
         </div>
       </div>
 
@@ -913,12 +913,12 @@
       <div class="pr-bars-col">
         <div class="pr-bar-row" data-filter-stars="5">
           <div class="pr-bar-label">5 <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
-          <div class="pr-bar-track"><div class="pr-bar-fill" id="pr-fill-5" style="width: 90%;"></div></div>
+          <div class="pr-bar-track"><div class="pr-bar-fill" id="pr-fill-5" style="width: 0%;"></div></div>
           <div class="pr-bar-count" id="pr-count-5">0</div>
         </div>
         <div class="pr-bar-row" data-filter-stars="4">
           <div class="pr-bar-label">4 <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
-          <div class="pr-bar-track"><div class="pr-bar-fill" id="pr-fill-4" style="width: 10%;"></div></div>
+          <div class="pr-bar-track"><div class="pr-bar-fill" id="pr-fill-4" style="width: 0%;"></div></div>
           <div class="pr-bar-count" id="pr-count-4">0</div>
         </div>
         <div class="pr-bar-row" data-filter-stars="3">
@@ -965,7 +965,7 @@
         <polyline points="22 4 12 14.01 9 11.01"></polyline>
       </svg>
       <div>
-        <strong>Thank you!</strong> Your review has been submitted and published successfully.
+        <strong>Thank you!</strong> Your review has been submitted and published successfully for this product.
       </div>
     </div>
 
@@ -973,7 +973,7 @@
     {%- if section.settings.allow_user_reviews -%}
       <div class="pr-form-wrapper" id="pr-form-wrapper">
         <div class="pr-form-header">
-          <h3 class="pr-form-title">Write Your Review</h3>
+          <h3 class="pr-form-title">Write a Review for {{ product.title }}</h3>
           <button type="button" class="pr-form-close" id="pr-form-close" aria-label="Close review form">×</button>
         </div>
 
@@ -1067,7 +1067,7 @@
     {%- endif -%}
 
     <!-- Filter & Sort Bar -->
-    <div class="pr-controls-bar">
+    <div class="pr-controls-bar" id="pr-controls-bar">
       <div class="pr-filter-pills" id="pr-filter-pills">
         <button type="button" class="pr-filter-btn is-active" data-filter="all">All Reviews</button>
         <button type="button" class="pr-filter-btn" data-filter="5">5 Stars</button>
@@ -1093,10 +1093,10 @@
       <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
       </svg>
-      <h3 class="pr-empty-title">Be the first to review this jersey!</h3>
-      <p class="pr-empty-subtitle">Share your fit, quality, and unboxing thoughts with fellow football fans.</p>
+      <h3 class="pr-empty-title">No reviews yet for this jersey</h3>
+      <p class="pr-empty-subtitle">Be the first to share your thoughts, fit feedback, and photos with fellow football fans!</p>
       {%- if section.settings.allow_user_reviews -%}
-        <button type="button" class="pr-write-btn" style="max-width: 220px; margin: 0 auto;" onclick="document.getElementById('pr-write-btn').click();">
+        <button type="button" class="pr-write-btn" style="max-width: 220px; margin: 12px auto 0 auto;" onclick="document.getElementById('pr-write-btn').click();">
           Write First Review
         </button>
       {%- endif -%}
@@ -1115,116 +1115,101 @@
   (function() {
     const currentProductId = {{ product.id | json }};
     const currentProductTitle = {{ product.title | json }};
-    const currentProductHandle = {{ product.handle | json }};
+    const currentProductHandle = ({{ product.handle | json }} || '').toLowerCase().trim();
 
-    // Authentic pre-seeded reviews from the 6YARD catalog
-    const SEED_REVIEWS = [
-      {
-        id: "seed_1",
-        productId: "musiala_away",
-        productMatch: "BAYERN MUNICH",
-        name: "Sharath",
-        rating: 5,
-        date: "Oct 3, 2026",
-        title: "Breathable fabric & perfect stitching",
-        text: "Ordered the Musiala Away kit. Honestly it's pretty good, I like it. Stitching is perfect and fabric is super breathable. Highly recommended for hot weather matches.",
-        fit: "True to Size",
-        recommend: true,
-        images: [
-          "https://res.cloudinary.com/weluylda/image/upload/v1791025615/kitbay/reviews/tcnz9xdrdb6hlasrae9b.jpg",
-          "https://res.cloudinary.com/weluylda/image/upload/v1791025617/kitbay/reviews/ptvqoenephngbumzqy20.jpg"
-        ],
-        helpful: 7
-      },
-      {
-        id: "seed_2",
-        productId: "musiala_away_2",
-        productMatch: "BAYERN MUNICH",
-        name: "Advait Mitra",
-        rating: 5,
-        date: "Aug 28, 2026",
-        title: "Impressive quality 😁",
-        text: "Very good fitting and material is also very good, impressive quality 😁 Arrived safely in 4 days via Speed Post.",
-        fit: "True to Size",
-        recommend: true,
-        images: [
-          "https://res.cloudinary.com/weluylda/image/upload/v1787859040/kitbay/reviews/peibvzfbrcc4zlota6rh.jpg"
-        ],
-        helpful: 5
-      },
-      {
-        id: "seed_3",
-        productId: "arsenal_retro",
-        productMatch: "ARSENAL",
-        name: "Niyaz",
-        rating: 5,
-        date: "Aug 1, 2026",
-        title: "Best Quality Jersey 📈🔥",
-        text: "Affordable price best Quality jersey 📈🔥 Thanks 6yard🥰❤️ The embroidery and badge feel identical to original matchwear.",
-        fit: "True to Size",
-        recommend: true,
-        images: [
-          "https://res.cloudinary.com/weluylda/image/upload/v1785563003/kitbay/reviews/ckbhjoph8f1yusbp02qv.jpg"
-        ],
-        helpful: 12
-      },
-      {
-        id: "seed_4",
-        productId: "zidane_retro",
-        productMatch: "FRANCE",
-        name: "Kashish",
-        rating: 5,
-        date: "Sep 23, 2026",
-        title: "Brother absolutely loved it!",
-        text: "Got it for my brother, he absolutely loved it! Vintage fit and crest detailing are spectacular, overall the quality was amazing.",
-        fit: "True to Size",
-        recommend: true,
-        images: [],
-        helpful: 4
-      },
-      {
-        id: "seed_5",
-        productId: "pedri_spain",
-        productMatch: "SPAIN",
-        name: "Laiq",
-        rating: 5,
-        date: "Aug 1, 2026",
-        title: "Excellent quality jerseys at a great price",
-        text: "⭐⭐⭐⭐⭐ Excellent quality jerseys at a great price. Fast delivery across India and the fit is perfect.",
-        fit: "True to Size",
-        recommend: true,
-        images: [],
-        helpful: 6
-      },
-      {
-        id: "seed_6",
-        productId: "travis_scott_barca",
-        productMatch: "BARCA",
-        name: "Ishan",
-        rating: 5,
-        date: "Sep 29, 2026",
-        title: "Retro Holy Grail",
-        text: "Travis Scott x Barca retro kit is pure heat 🔥 Embroidery and custom sponsor look crisp.",
-        fit: "True to Size",
-        recommend: true,
-        images: [],
-        helpful: 9
-      },
-      {
-        id: "seed_7",
-        productId: "general_kit_1",
-        productMatch: "ALL",
-        name: "Rohan V.",
-        rating: 5,
-        date: "Oct 19, 2026",
-        title: "Pan-India delivery in 4 days",
-        text: "Jersey received in pristine packaging. Super lightweight, vibrant colors and true to size. Will definitely order again!",
-        fit: "True to Size",
-        recommend: true,
-        images: [],
-        helpful: 3
-      }
-    ];
+    // Authentic pre-seeded reviews mapped STRICTLY to exact product handles
+    // NO reviews from any other product will ever be displayed here
+    const SEED_REVIEWS_BY_HANDLE = {
+      "bayern-munich-2026-27-away-kit-musiala-five-sleeve": [
+        {
+          id: "seed_bm_1",
+          name: "Sharath",
+          rating: 5,
+          date: "Oct 3, 2026",
+          title: "Breathable fabric & perfect stitching",
+          text: "Ordered the Musiala Away kit. Honestly it's pretty good, I like it. Stitching is perfect and fabric is super breathable. Highly recommended for hot weather matches.",
+          fit: "True to Size",
+          recommend: true,
+          images: [
+            "https://res.cloudinary.com/weluylda/image/upload/v1791025615/kitbay/reviews/tcnz9xdrdb6hlasrae9b.jpg",
+            "https://res.cloudinary.com/weluylda/image/upload/v1791025617/kitbay/reviews/ptvqoenephngbumzqy20.jpg"
+          ],
+          helpful: 7
+        },
+        {
+          id: "seed_bm_2",
+          name: "Advait Mitra",
+          rating: 5,
+          date: "Aug 28, 2026",
+          title: "Impressive quality 😁",
+          text: "Very good fitting and material is also very good, impressive quality 😁 Arrived safely in 4 days via Speed Post.",
+          fit: "True to Size",
+          recommend: true,
+          images: [
+            "https://res.cloudinary.com/weluylda/image/upload/v1787859040/kitbay/reviews/peibvzfbrcc4zlota6rh.jpg"
+          ],
+          helpful: 5
+        }
+      ],
+      "arsenal-2009-10-third-kit-arshavin": [
+        {
+          id: "seed_ars_1",
+          name: "Niyaz",
+          rating: 5,
+          date: "Aug 1, 2026",
+          title: "Best Quality Jersey 📈🔥",
+          text: "Affordable price best Quality jersey 📈🔥 Thanks 6yard🥰❤️ The embroidery and badge feel identical to original matchwear.",
+          fit: "True to Size",
+          recommend: true,
+          images: [
+            "https://res.cloudinary.com/weluylda/image/upload/v1785563003/kitbay/reviews/ckbhjoph8f1yusbp02qv.jpg"
+          ],
+          helpful: 12
+        }
+      ],
+      "fc-barca-x-travis-scott-retro-2000-01-home": [
+        {
+          id: "seed_barca_1",
+          name: "Ishan",
+          rating: 5,
+          date: "Sep 29, 2026",
+          title: "Retro Holy Grail",
+          text: "Travis Scott x Barca retro kit is pure heat 🔥 Embroidery and custom sponsor look crisp.",
+          fit: "True to Size",
+          recommend: true,
+          images: [],
+          helpful: 9
+        }
+      ],
+      "france-retro-zidane-special-edition": [
+        {
+          id: "seed_fra_1",
+          name: "Kashish",
+          rating: 5,
+          date: "Sep 23, 2026",
+          title: "Brother absolutely loved it!",
+          text: "Got it for my brother, he absolutely loved it! Vintage fit and crest detailing are spectacular, overall the quality was amazing.",
+          fit: "True to Size",
+          recommend: true,
+          images: [],
+          helpful: 4
+        }
+      ],
+      "spain-2026-world-cup-champion-away-kit-pedri": [
+        {
+          id: "seed_esp_1",
+          name: "Laiq",
+          rating: 5,
+          date: "Aug 1, 2026",
+          title: "Excellent quality jerseys at a great price",
+          text: "⭐⭐⭐⭐⭐ Excellent quality jerseys at a great price. Fast delivery across India and the fit is perfect.",
+          fit: "True to Size",
+          recommend: true,
+          images: [],
+          helpful: 6
+        }
+      ]
+    };
 
     let currentReviews = [];
     let activeFilter = 'all';
@@ -1232,26 +1217,18 @@
     let uploadedImagesData = [];
 
     function initReviews() {
-      // 1. Gather reviews for current product
-      const localKey = '6yard_reviews_' + currentProductId;
+      // 1. LocalStorage key strictly isolated to this product ID
+      const localKey = '6yard_product_reviews_' + currentProductId;
       let storedReviews = [];
       try {
         const raw = localStorage.getItem(localKey);
         if (raw) storedReviews = JSON.parse(raw);
       } catch (e) {}
 
-      // Match seed reviews based on title
-      const pTitleUpper = (currentProductTitle || '').toUpperCase();
-      let matchedSeeds = SEED_REVIEWS.filter(r => {
-        if (r.productMatch === 'ALL') return false;
-        return pTitleUpper.includes(r.productMatch);
-      });
+      // 2. Fetch seed reviews strictly for this exact handle (NO FALLBACK to other products)
+      const matchedSeeds = SEED_REVIEWS_BY_HANDLE[currentProductHandle] || [];
 
-      // If no specific team matched, provide general high-rated verified kits
-      if (matchedSeeds.length === 0) {
-        matchedSeeds = SEED_REVIEWS.filter(r => r.productMatch === 'ALL' || r.id === 'seed_1' || r.id === 'seed_3');
-      }
-
+      // Combine ONLY this product's reviews
       currentReviews = [...storedReviews, ...matchedSeeds];
 
       // Update statistics
@@ -1269,21 +1246,47 @@
       const countEl = document.getElementById('pr-total-count');
       const scoreEl = document.getElementById('pr-avg-score');
       const starsEl = document.getElementById('pr-avg-stars');
+      const recBadge = document.getElementById('pr-recommend-badge');
+      const recPctEl = document.getElementById('pr-recommend-pct');
+      const controlsBar = document.getElementById('pr-controls-bar');
 
       if (countEl) countEl.textContent = total;
 
-      let avg = 5.0;
       const counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
 
-      if (total > 0) {
-        let sum = 0;
-        reviews.forEach(r => {
-          const rating = parseInt(r.rating, 10) || 5;
-          sum += rating;
-          counts[rating] = (counts[rating] || 0) + 1;
+      if (total === 0) {
+        if (scoreEl) scoreEl.textContent = '0.0';
+        if (starsEl) starsEl.textContent = '☆☆☆☆☆';
+        if (recBadge) recBadge.style.display = 'none';
+        if (controlsBar) controlsBar.style.display = 'none';
+
+        [1, 2, 3, 4, 5].forEach(star => {
+          const fillEl = document.getElementById('pr-fill-' + star);
+          const numEl = document.getElementById('pr-count-' + star);
+          if (fillEl) fillEl.style.width = '0%';
+          if (numEl) numEl.textContent = '0';
         });
-        avg = (sum / total).toFixed(1);
+
+        // Update product title rating badge
+        document.querySelectorAll('.badge-avg-rating').forEach(el => el.textContent = '0.0');
+        document.querySelectorAll('.badge-review-count').forEach(el => el.textContent = '0');
+        document.querySelectorAll('.badge-stars').forEach(el => el.textContent = '☆☆☆☆☆');
+        return;
       }
+
+      if (controlsBar) controlsBar.style.display = 'flex';
+
+      let sum = 0;
+      let recommendCount = 0;
+      reviews.forEach(r => {
+        const rating = parseInt(r.rating, 10) || 5;
+        sum += rating;
+        counts[rating] = (counts[rating] || 0) + 1;
+        if (r.recommend !== false) recommendCount++;
+      });
+
+      const avg = (sum / total).toFixed(1);
+      const recPct = Math.round((recommendCount / total) * 100);
 
       if (scoreEl) scoreEl.textContent = avg;
       if (starsEl) {
@@ -1291,19 +1294,28 @@
         starsEl.textContent = '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
       }
 
+      if (recBadge) {
+        recBadge.style.display = 'inline-flex';
+        if (recPctEl) recPctEl.textContent = recPct + '%';
+      }
+
       // Update breakdown bars
       [1, 2, 3, 4, 5].forEach(star => {
         const count = counts[star] || 0;
-        const pct = total > 0 ? ((count / total) * 100).toFixed(0) : 0;
+        const pct = ((count / total) * 100).toFixed(0);
         const fillEl = document.getElementById('pr-fill-' + star);
         const numEl = document.getElementById('pr-count-' + star);
         if (fillEl) fillEl.style.width = pct + '%';
         if (numEl) numEl.textContent = count;
       });
 
-      // Also update badges in main product section if present
+      // Update product title rating badge
       document.querySelectorAll('.badge-avg-rating').forEach(el => el.textContent = avg);
       document.querySelectorAll('.badge-review-count').forEach(el => el.textContent = total);
+      document.querySelectorAll('.badge-stars').forEach(el => {
+        const fullStars = Math.round(avg);
+        el.textContent = '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
+      });
     }
 
     function renderFeed() {
