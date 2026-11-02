@@ -312,24 +312,34 @@
     {%- endif -%}
     {%- assign product_limit = section.settings.products_to_show | default: 12 -%}
 
-    {%- if section.settings.enable_horizontal_scroll -%}
-      <div class="new-drops-slider-wrap">
-        <div class="new-drops-track" id="NewDropsTrack-{{ section.id }}" tabindex="0" role="region" aria-label="New Drops Carousel">
-          {%- if target_collection != blank and target_collection.products.size > 0 -%}
-            {%- for product in target_collection.products limit: product_limit -%}
-              <div class="new-drops-item">
-                {% render 'card-product',
-                  card_product: product,
-                  media_aspect_ratio: 'adapt',
-                  image_shape: 'default',
-                  show_secondary_image: true,
-                  show_vendor: false,
-                  show_rating: false,
-                  section_id: section.id,
-                  quick_add: 'none'
-                %}
-              </div>
-            {%- endfor -%}
+    {%- paginate target_collection.products by 250 -%}
+      {%- liquid
+        assign raw_products = target_collection.products
+        if section.settings.sort_order == 'default'
+          assign display_products = raw_products
+        else
+          assign display_products = raw_products | sort: 'id' | reverse
+        endif
+      -%}
+
+      {%- if section.settings.enable_horizontal_scroll -%}
+        <div class="new-drops-slider-wrap">
+          <div class="new-drops-track" id="NewDropsTrack-{{ section.id }}" tabindex="0" role="region" aria-label="New Drops Carousel">
+            {%- if display_products != blank and display_products.size > 0 -%}
+              {%- for product in display_products limit: product_limit -%}
+                <div class="new-drops-item">
+                  {% render 'card-product',
+                    card_product: product,
+                    media_aspect_ratio: 'adapt',
+                    image_shape: 'default',
+                    show_secondary_image: true,
+                    show_vendor: false,
+                    show_rating: false,
+                    section_id: section.id,
+                    quick_add: 'none'
+                  %}
+                </div>
+              {%- endfor -%}
           {%- else -%}
             <div class="center" style="width: 100%; padding: 40px 0; text-align: center;">
               <p style="font-size: 15px; color: #6b7280;">No products found in this collection.</p>
@@ -345,8 +355,8 @@
       </div>
     {%- else -%}
       <div class="new-drops-grid">
-        {%- if target_collection != blank and target_collection.products.size > 0 -%}
-          {%- for product in target_collection.products limit: product_limit -%}
+        {%- if display_products != blank and display_products.size > 0 -%}
+          {%- for product in display_products limit: product_limit -%}
             <div>
               {% render 'card-product',
                 card_product: product,
@@ -367,6 +377,7 @@
         {%- endif -%}
       </div>
     {%- endif -%}
+    {%- endpaginate -%}
 
     <!-- Bottom Button -->
     <div class="new-drops-bottom-wrap">
@@ -455,7 +466,17 @@
     {
       "type": "collection",
       "id": "collection",
-      "label": "Collection"
+      "label": "Collection (Leave blank for All Products)"
+    },
+    {
+      "type": "select",
+      "id": "sort_order",
+      "label": "Product Sort Order",
+      "options": [
+        { "value": "newest", "label": "Newest Added First (Latest Jersey Drops)" },
+        { "value": "default", "label": "Collection Default Order" }
+      ],
+      "default": "newest"
     },
     {
       "type": "range",

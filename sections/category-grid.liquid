@@ -1,0 +1,180 @@
+<section class="category-grid-section page-width-wrapper" id="CategoryGrid-{{ section.id }}" data-section-id="{{ section.id }}">
+  {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+    <div class="coverflow-heading-wrap">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="coverflow-heading">{{ section.settings.heading }}</h2>
+        <div class="coverflow-underline"></div>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="coverflow-subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- liquid
+    assign custom_blocks_count = 0
+    for block in section.blocks
+      if block.settings.collection != blank
+        assign custom_blocks_count = custom_blocks_count | plus: 1
+      endif
+    endfor
+  -%}
+
+  <div class="category-blocks-wrapper" style="margin-top: 10px;">
+    <div class="category-blocks-grid category-grid--{{ section.settings.grid_columns_desktop | default: '4' }}-col" style="--cat-card-aspect-ratio: {{ section.settings.grid_card_ratio | default: '4/5' }}; --cat-card-radius: {{ section.settings.grid_card_radius | default: 12 }}px; --cat-img-fit: {{ section.settings.grid_image_fit | default: 'cover' }};">
+      {%- if custom_blocks_count > 0 -%}
+        {%- for block in section.blocks -%}
+          {%- assign col = block.settings.collection -%}
+          {%- if col != blank -%}
+            {%- assign card_image = block.settings.custom_image | default: col.image | default: col.products.first.featured_media.preview_image | default: col.products.first.featured_image -%}
+            {%- assign card_title = block.settings.title | default: col.title -%}
+            {%- assign card_link = block.settings.custom_link | default: col.url -%}
+
+            <a href="{{ card_link }}" class="category-block-card" {{ block.shopify_attributes }}>
+              <div class="category-block-media">
+                {%- if card_image != blank -%}
+                  {{ card_image | image_url: width: 800 | image_tag:
+                    loading: 'lazy',
+                    class: 'category-block-img',
+                    widths: '320, 480, 640, 800',
+                    alt: card_title | escape
+                  }}
+                {%- else -%}
+                  <div class="col-placeholder"></div>
+                {%- endif -%}
+              </div>
+              <div class="category-block-info">
+                <h3 class="category-block-title">{{ card_title }}</h3>
+              </div>
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for col in collections limit: 8 -%}
+          {%- unless col.handle == 'frontpage' -%}
+            {%- assign card_image = col.image | default: col.products.first.featured_media.preview_image | default: col.products.first.featured_image -%}
+            <a href="{{ col.url }}" class="category-block-card">
+              <div class="category-block-media">
+                {%- if card_image != blank -%}
+                  {{ card_image | image_url: width: 800 | image_tag:
+                    loading: 'lazy',
+                    class: 'category-block-img',
+                    widths: '320, 480, 640, 800',
+                    alt: col.title | escape
+                  }}
+                {%- else -%}
+                  <div class="col-placeholder"></div>
+                {%- endif -%}
+              </div>
+              <div class="category-block-info">
+                <h3 class="category-block-title">{{ col.title }}</h3>
+              </div>
+            </a>
+          {%- endunless -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Category Blocks Grid",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "SHOP BY CATEGORY"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Explore jerseys by league, tournament, and style"
+    },
+    {
+      "type": "select",
+      "id": "grid_columns_desktop",
+      "label": "Grid Columns (Desktop)",
+      "options": [
+        { "value": "2", "label": "2 Columns" },
+        { "value": "3", "label": "3 Columns" },
+        { "value": "4", "label": "4 Columns" }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "grid_card_ratio",
+      "label": "Card Image Aspect Ratio / Height",
+      "options": [
+        { "value": "4/5", "label": "Portrait (4:5) — Reference Design" },
+        { "value": "3/4", "label": "Portrait (3:4) — Medium Height" },
+        { "value": "2/3", "label": "Portrait (2:3) — Extra Tall" },
+        { "value": "1/1", "label": "Square (1:1)" },
+        { "value": "4/3", "label": "Landscape (4:3) — Compact" }
+      ],
+      "default": "4/5"
+    },
+    {
+      "type": "select",
+      "id": "grid_image_fit",
+      "label": "Image Fit Style",
+      "options": [
+        { "value": "cover", "label": "Cover (Fills entire card cleanly)" },
+        { "value": "contain", "label": "Contain (Fits full image without cropping)" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "range",
+      "id": "grid_card_radius",
+      "label": "Card Corner Roundness",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_item",
+      "name": "Category Block",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select Collection"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Custom Title Override (optional)"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_image",
+          "label": "Custom Block Image (optional)"
+        },
+        {
+          "type": "url",
+          "id": "custom_link",
+          "label": "Custom Link (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category Blocks Grid",
+      "settings": {
+        "heading": "SHOP BY CATEGORY"
+      }
+    }
+  ]
+}
+{% endschema %}

@@ -174,8 +174,11 @@
       "settings": {
         "heading": "FEATURED COLLECTIONS",
         "subheading": "Explore official kits by category, club and national teams",
-        "layout_type": "slider",
-        "show_secondary_grid": false
+        "layout_type": "both",
+        "show_grid_below": true,
+        "grid_columns_desktop": "4",
+        "grid_card_ratio": "4/5",
+        "grid_items_limit": 12
       }
     },
     "new_drops": {
@@ -183,6 +186,7 @@
       "settings": {
         "subtitle": "Latest arrivals & newly released football kits.",
         "collection": "",
+        "sort_order": "newest",
         "products_to_show": 12,
         "enable_horizontal_scroll": true,
         "show_arrows": true,
