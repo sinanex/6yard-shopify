@@ -23,8 +23,8 @@
           "type": "title",
           "settings": {}
         },
-        "rating": {
-          "type": "rating",
+        "judge_me_reviews_preview_badge": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
           "settings": {}
         },
         "price": {
@@ -72,7 +72,7 @@
       "block_order": [
         "vendor",
         "title",
-        "rating",
+        "judge_me_reviews_preview_badge",
         "price",
         "variant_picker",
         "delivery_timeline",
@@ -97,14 +97,24 @@
         "padding_bottom": 24
       }
     },
-    "product_reviews": {
-      "type": "product-reviews",
+    "judge_me_reviews": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_aaUAYF": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_aaUAYF"
+      ],
       "settings": {
-        "heading": "CUSTOMER REVIEWS",
-        "subheading": "Real reviews from verified football fans across India.",
-        "allow_user_reviews": true,
-        "padding_top": 48,
-        "padding_bottom": 56
+        "include_margins": true
       }
     },
     "related-products": {
@@ -128,7 +138,7 @@
   },
   "order": [
     "main",
-    "product_reviews",
+    "judge_me_reviews",
     "related-products"
   ]
 }

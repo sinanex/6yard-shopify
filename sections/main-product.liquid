@@ -571,13 +571,10 @@
                     </div>
                   {%- else -%}
                     <div class="rating-wrapper" {{ block.shopify_attributes }}>
-                      <a href="#product-reviews-section" class="product-quick-review-badge" style="display:inline-flex; align-items:center; gap:8px; text-decoration:none; margin: 4px 0 10px 0; cursor:pointer;" onclick="const s=document.getElementById('product-reviews-section'); if(s){ s.scrollIntoView({behavior:'smooth'}); }">
-                        <span aria-hidden="true" style="color: #f59e0b; font-size: 15px; letter-spacing: 2px;" class="badge-stars">☆☆☆☆☆</span>
-                        <span style="font-size: 13px; font-weight: 800; color: #0f172a;" class="badge-avg-rating">0.0</span>
-                        <span style="font-size: 12px; color: #64748b; text-decoration: underline;" class="badge-review-text">
-                          (<span class="badge-review-count">0</span> Reviews) • Write a review
-                        </span>
-                      </a>
+                      <!-- Judgeme Preview Badge -->
+                      <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">
+                        {{ product.metafields.judgeme.badge }}
+                      </div>
                     </div>
                   {%- endif -%}
                 {%- when 'complementary' -%}
