@@ -26,8 +26,9 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
     gap: 16px;
+    flex-wrap: wrap;
   }
 
   .new-drops-title {
@@ -51,6 +52,12 @@
     margin-top: 6px;
   }
 
+  .new-drops-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
   .new-drops-view-link {
     display: inline-flex;
     align-items: center;
@@ -68,6 +75,148 @@
     color: #4b5563;
   }
 
+  .new-drops-nav-buttons {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .new-drops-arrow {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    color: #111827;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  .new-drops-arrow:hover:not(:disabled) {
+    background: #000000;
+    color: #ffffff;
+    border-color: #000000;
+    transform: scale(1.05);
+  }
+
+  .new-drops-arrow:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* Horizontal Slider */
+  .new-drops-slider-wrap {
+    position: relative;
+    width: 100%;
+  }
+
+  .new-drops-track {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 6px 4px 18px 4px;
+    margin: 0;
+    list-style: none;
+  }
+
+  .new-drops-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .new-drops-item {
+    flex: 0 0 calc((100% - (3 * 16px)) / 4);
+    min-width: 240px;
+    max-width: 310px;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .new-drops-item > * {
+    width: 100%;
+    height: 100%;
+  }
+
+  .new-drops-item .card-wrapper {
+    height: 100%;
+  }
+
+  .new-drops-item .card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .new-drops-item .card__inner {
+    width: 100%;
+  }
+
+  .new-drops-item .card__content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  @media screen and (max-width: 989px) {
+    .new-drops-item {
+      flex: 0 0 220px;
+      min-width: 220px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .new-drops-header {
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .new-drops-track {
+      gap: 12px;
+      padding-left: 16px;
+      padding-right: 16px;
+      margin-left: -16px;
+      margin-right: -16px;
+    }
+    .new-drops-item {
+      flex: 0 0 175px;
+      min-width: 175px;
+      max-width: 175px;
+    }
+  }
+
+  /* Progress Bar */
+  .new-drops-progress {
+    height: 3px;
+    background: #f1f5f9;
+    border-radius: 99px;
+    max-width: 140px;
+    margin: 6px auto 0 auto;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .new-drops-progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 35%;
+    background: #0f172a;
+    border-radius: 99px;
+    transition: transform 0.08s ease-out;
+  }
+
+  /* Standard Grid Fallback */
   .new-drops-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -89,7 +238,7 @@
   }
 
   .new-drops-bottom-wrap {
-    margin-top: 48px;
+    margin-top: 36px;
     text-align: center;
   }
 
@@ -121,7 +270,7 @@
     
     <!-- Header -->
     <div class="new-drops-header">
-      <div>
+      <div class="new-drops-header-text">
         <h2 class="new-drops-title">
           NEW <span>DROPS</span>
         </h2>
@@ -130,44 +279,94 @@
         </p>
       </div>
 
-      <a href="{{ section.settings.collection.url | default: '/collections/all' }}" class="new-drops-view-link">
-        View All Kits
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-          <polyline points="12 5 19 12 12 19"></polyline>
-        </svg>
-      </a>
+      <div class="new-drops-header-actions">
+        <a href="{{ section.settings.collection.url | default: '/collections/all' }}" class="new-drops-view-link">
+          View All Kits
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+
+        {%- if section.settings.enable_horizontal_scroll and section.settings.show_arrows -%}
+          <div class="new-drops-nav-buttons">
+            <button type="button" class="new-drops-arrow new-drops-prev" aria-label="Previous products" disabled>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+            <button type="button" class="new-drops-arrow new-drops-next" aria-label="Next products">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
+        {%- endif -%}
+      </div>
     </div>
 
-    <!-- Product Grid -->
+    <!-- Products -->
     {%- assign target_collection = section.settings.collection -%}
     {%- if target_collection == blank or target_collection.all_products_count == 0 -%}
       {%- assign target_collection = collections['all'] -%}
     {%- endif -%}
-    {%- assign product_limit = section.settings.products_to_show | default: 10 -%}
+    {%- assign product_limit = section.settings.products_to_show | default: 12 -%}
 
-    <div class="new-drops-grid">
-      {%- if target_collection != blank and target_collection.products.size > 0 -%}
-        {%- for product in target_collection.products limit: product_limit -%}
-          <div>
-            {% render 'card-product',
-              card_product: product,
-              media_aspect_ratio: 'adapt',
-              image_shape: 'default',
-              show_secondary_image: true,
-              show_vendor: false,
-              show_rating: false,
-              section_id: section.id,
-              quick_add: 'none'
-            %}
-          </div>
-        {%- endfor -%}
-      {%- else -%}
-        <div class="center" style="grid-column: 1 / -1; padding: 40px 0; text-align: center;">
-          <p style="font-size: 15px; color: #6b7280;">No products found in this collection.</p>
+    {%- if section.settings.enable_horizontal_scroll -%}
+      <div class="new-drops-slider-wrap">
+        <div class="new-drops-track" id="NewDropsTrack-{{ section.id }}" tabindex="0" role="region" aria-label="New Drops Carousel">
+          {%- if target_collection != blank and target_collection.products.size > 0 -%}
+            {%- for product in target_collection.products limit: product_limit -%}
+              <div class="new-drops-item">
+                {% render 'card-product',
+                  card_product: product,
+                  media_aspect_ratio: 'adapt',
+                  image_shape: 'default',
+                  show_secondary_image: true,
+                  show_vendor: false,
+                  show_rating: false,
+                  section_id: section.id,
+                  quick_add: 'none'
+                %}
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            <div class="center" style="width: 100%; padding: 40px 0; text-align: center;">
+              <p style="font-size: 15px; color: #6b7280;">No products found in this collection.</p>
+            </div>
+          {%- endif -%}
         </div>
-      {%- endif -%}
-    </div>
+
+        {%- if section.settings.show_progress -%}
+          <div class="new-drops-progress" aria-hidden="true">
+            <div class="new-drops-progress-bar"></div>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- else -%}
+      <div class="new-drops-grid">
+        {%- if target_collection != blank and target_collection.products.size > 0 -%}
+          {%- for product in target_collection.products limit: product_limit -%}
+            <div>
+              {% render 'card-product',
+                card_product: product,
+                media_aspect_ratio: 'adapt',
+                image_shape: 'default',
+                show_secondary_image: true,
+                show_vendor: false,
+                show_rating: false,
+                section_id: section.id,
+                quick_add: 'none'
+              %}
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          <div class="center" style="grid-column: 1 / -1; padding: 40px 0; text-align: center;">
+            <p style="font-size: 15px; color: #6b7280;">No products found in this collection.</p>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
 
     <!-- Bottom Button -->
     <div class="new-drops-bottom-wrap">
@@ -183,9 +382,67 @@
   </div>
 </div>
 
+{%- if section.settings.enable_horizontal_scroll -%}
+  <script>
+    (function() {
+      function initNewDropsSlider() {
+        const section = document.querySelector('.new-drops-section-{{ section.id }}');
+        if (!section) return;
+
+        const track = section.querySelector('.new-drops-track');
+        const prevBtn = section.querySelector('.new-drops-prev');
+        const nextBtn = section.querySelector('.new-drops-next');
+        const progressBar = section.querySelector('.new-drops-progress-bar');
+        if (!track) return;
+
+        function updateControls() {
+          const maxScroll = track.scrollWidth - track.clientWidth;
+          if (prevBtn) prevBtn.disabled = track.scrollLeft <= 4;
+          if (nextBtn) nextBtn.disabled = maxScroll > 0 ? (track.scrollLeft >= maxScroll - 4) : true;
+
+          if (progressBar && maxScroll > 0) {
+            const ratio = Math.max(0, Math.min(1, track.scrollLeft / maxScroll));
+            progressBar.style.transform = 'translateX(' + (ratio * 185) + '%)';
+          }
+        }
+
+        if (prevBtn) {
+          prevBtn.addEventListener('click', function() {
+            const step = track.clientWidth * 0.75;
+            track.scrollBy({ left: -step, behavior: 'smooth' });
+          });
+        }
+
+        if (nextBtn) {
+          nextBtn.addEventListener('click', function() {
+            const step = track.clientWidth * 0.75;
+            track.scrollBy({ left: step, behavior: 'smooth' });
+          });
+        }
+
+        track.addEventListener('scroll', updateControls, { passive: true });
+        window.addEventListener('resize', updateControls);
+        setTimeout(updateControls, 150);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initNewDropsSlider);
+      } else {
+        initNewDropsSlider();
+      }
+
+      document.addEventListener('shopify:section:load', function(event) {
+        if (event.detail && event.detail.sectionId === '{{ section.id }}') {
+          initNewDropsSlider();
+        }
+      });
+    })();
+  </script>
+{%- endif -%}
+
 {% schema %}
 {
-  "name": "New Drops Grid",
+  "name": "New Drops",
   "tag": "section",
   "class": "section",
   "settings": [
@@ -204,10 +461,28 @@
       "type": "range",
       "id": "products_to_show",
       "min": 4,
-      "max": 20,
+      "max": 24,
       "step": 2,
-      "default": 10,
+      "default": 12,
       "label": "Products to show"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_horizontal_scroll",
+      "label": "Enable horizontal scroll",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show navigation arrows",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress",
+      "label": "Show scroll progress indicator",
+      "default": true
     },
     {
       "type": "range",
@@ -232,7 +507,7 @@
   ],
   "presets": [
     {
-      "name": "New Drops Grid"
+      "name": "New Drops"
     }
   ]
 }

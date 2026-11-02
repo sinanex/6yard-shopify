@@ -183,7 +183,10 @@
       "settings": {
         "subtitle": "Latest arrivals & newly released football kits.",
         "collection": "",
-        "products_to_show": 6,
+        "products_to_show": 12,
+        "enable_horizontal_scroll": true,
+        "show_arrows": true,
+        "show_progress": true,
         "padding_top": 48,
         "padding_bottom": 64
       }
