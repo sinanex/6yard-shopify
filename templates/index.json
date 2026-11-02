@@ -1,11 +1,33 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "campaign_hero": {
       "type": "campaign-hero",
       "blocks": {
+        "slide_wmmM4X": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/5a58f760-7fef-49f2-91fd-c861da6b8059.jpg",
+            "video_url": "",
+            "heading": "TEST BANNER",
+            "subheading": "Authentic fan & player edition jerseys with pan-India Speed Post delivery.",
+            "button_label": "EXPLORE ALL KITS",
+            "button_link": ""
+          }
+        },
         "slide_1": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/cc1de412-51d4-4903-8666-bfe397352fbd.jpg",
+            "video_url": "",
             "heading": "PREMIUM FOOTBALL KITS",
             "subheading": "Authentic fan & player edition jerseys with pan-India Speed Post delivery.",
             "button_label": "EXPLORE ALL KITS",
@@ -14,13 +36,14 @@
         }
       },
       "block_order": [
+        "slide_wmmM4X",
         "slide_1"
       ],
       "settings": {
-        "desktop_height": 640,
-        "mobile_height": 480,
+        "desktop_height": 620,
+        "mobile_height": 490,
         "autoplay": true,
-        "autoplay_speed": 6
+        "autoplay_speed": 5
       }
     },
     "trust_features": {
@@ -28,6 +51,7 @@
       "blocks": {
         "feature_1": {
           "type": "feature",
+          "disabled": true,
           "settings": {
             "icon": "truck",
             "title": "SPEED POST DELIVERY",
@@ -36,6 +60,7 @@
         },
         "feature_2": {
           "type": "feature",
+          "disabled": true,
           "settings": {
             "icon": "shield",
             "title": "100% QUALITY CHECKED",
@@ -44,6 +69,7 @@
         },
         "feature_3": {
           "type": "feature",
+          "disabled": true,
           "settings": {
             "icon": "payment",
             "title": "100% ONLINE PAYMENTS",
@@ -61,6 +87,27 @@
     "collections_coverflow": {
       "type": "collections-coverflow",
       "blocks": {
+        "collection_item_XNhFce": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "round-neck",
+            "title": "ROUND NECK"
+          }
+        },
+        "collection_item_tm8a9N": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "ipl-jersey",
+            "title": "IPL JERSEY"
+          }
+        },
+        "collection_item_zr9H4c": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "fifa",
+            "title": "WORLD CUP 2026"
+          }
+        },
         "col_1": {
           "type": "collection_item",
           "settings": {
@@ -72,7 +119,8 @@
           "type": "collection_item",
           "settings": {
             "collection": "full-sleev",
-            "title": "FULL SLEEVE JERSEYS"
+            "title": "FULL SLEEVE JERSEYS",
+            "custom_image": "shopify://shop_images/WhatsApp_Image_2026-10-28_at_6.21.01_PM.jpg"
           }
         },
         "col_3": {
@@ -107,11 +155,14 @@
           "type": "collection_item",
           "settings": {
             "collection": "all-collection-1",
-            "title": "ALL KITS & COLLECTIONS"
+            "title": "ALL COLLECTIONS"
           }
         }
       },
       "block_order": [
+        "collection_item_XNhFce",
+        "collection_item_tm8a9N",
+        "collection_item_zr9H4c",
         "col_1",
         "col_2",
         "col_3",
@@ -131,7 +182,8 @@
       "type": "new-drops",
       "settings": {
         "subtitle": "Latest arrivals & newly released football kits.",
-        "products_to_show": 10,
+        "collection": "",
+        "products_to_show": 6,
         "padding_top": 48,
         "padding_bottom": 64
       }
@@ -139,6 +191,31 @@
     "reviews_showcase": {
       "type": "reviews-showcase",
       "blocks": {
+        "review_xiQ4Ra": {
+          "type": "review",
+          "settings": {
+            "customer_name": "Sharath",
+            "team": "BAYERN",
+            "product_name": "Bayern Munich Away Kit",
+            "rating": 5,
+            "date": "Oct 2026",
+            "image_url": "",
+            "image": "shopify://shop_images/person-stands-on-rocks-poking-out-of-the-ocean-shoreline.jpg",
+            "text": "test review"
+          }
+        },
+        "review_ncD46W": {
+          "type": "review",
+          "settings": {
+            "customer_name": "Sharath",
+            "team": "BAYERN",
+            "product_name": "Bayern Munich Away Kit",
+            "rating": 5,
+            "date": "Oct 2026",
+            "image_url": "",
+            "text": "Ordered the Musiala Away kit. Honestly it's pretty good, I like it. Stitching is perfect and fabric is super breathable."
+          }
+        },
         "review_1": {
           "type": "review",
           "settings": {
@@ -225,6 +302,8 @@
         }
       },
       "block_order": [
+        "review_xiQ4Ra",
+        "review_ncD46W",
         "review_1",
         "review_2",
         "review_3",
@@ -238,6 +317,7 @@
         "heading": "WHAT OUR FANS SAY",
         "average_rating": "4.8",
         "total_verified": "100%",
+        "api_url": "",
         "padding_top": 52,
         "padding_bottom": 68
       }
@@ -296,6 +376,7 @@
         "faq_5",
         "faq_6"
       ],
+      "disabled": true,
       "settings": {
         "heading": "FREQUENTLY ASKED QUESTIONS",
         "subtitle": "Everything you need to know about ordering, delivery, sizing and authenticity."
