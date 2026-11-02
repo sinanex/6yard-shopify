@@ -23,6 +23,10 @@
           "type": "title",
           "settings": {}
         },
+        "rating": {
+          "type": "rating",
+          "settings": {}
+        },
         "price": {
           "type": "price",
           "settings": {}
@@ -68,6 +72,7 @@
       "block_order": [
         "vendor",
         "title",
+        "rating",
         "price",
         "variant_picker",
         "delivery_timeline",
@@ -92,6 +97,16 @@
         "padding_bottom": 24
       }
     },
+    "product_reviews": {
+      "type": "product-reviews",
+      "settings": {
+        "heading": "CUSTOMER REVIEWS",
+        "subheading": "Real reviews from verified football fans across India.",
+        "allow_user_reviews": true,
+        "padding_top": 48,
+        "padding_bottom": 56
+      }
+    },
     "related-products": {
       "type": "related-products",
       "settings": {
@@ -113,6 +128,7 @@
   },
   "order": [
     "main",
+    "product_reviews",
     "related-products"
   ]
 }
