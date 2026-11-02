@@ -8,6 +8,15 @@
 <nav class="header__inline-menu">
   <ul class="list-menu list-menu--inline" role="list">
     {%- for link in section.settings.menu.links -%}
+      {%- liquid
+        assign link_url = link.url
+        assign is_catalog_link = false
+        assign link_title_downcase = link.title | downcase | strip
+        if link.handle == 'catalog' or link.url contains '/collections/all' or link_title_downcase == 'catalog'
+          assign is_catalog_link = true
+          assign link_url = routes.root_url | append: '#category-section'
+        endif
+      -%}
       <li>
         {%- if link.links != blank -%}
           <header-menu>
@@ -73,8 +82,11 @@
         {%- else -%}
           <a
             id="HeaderMenu-{{ link.handle }}"
-            href="{{ link.url }}"
+            href="{{ link_url }}"
             class="header__menu-item list-menu__item link link--text focus-inset"
+            {% if is_catalog_link %}
+              data-target-category="true"
+            {% endif %}
             {% if link.current %}
               aria-current="page"
             {% endif %}

@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCoverflow();
   initDeliveryTimeline();
   initSizeGuideModal();
+  initCategoryMenuLink();
 });
 
 /* ==========================================================================
@@ -201,4 +202,75 @@ function initSizeGuideModal() {
       closeModal();
     }
   });
+}
+
+/* ==========================================================================
+   4. CATEGORY MENU LINK & DRAWER SMOOTH SCROLL
+   ========================================================================== */
+function initCategoryMenuLink() {
+  function scrollToCategory(e) {
+    const isHomePage = window.location.pathname === '/' || window.location.pathname === '';
+    const catSec = document.getElementById('category-section') || document.querySelector('.coverflow-section');
+
+    if (isHomePage && catSec) {
+      if (e) e.preventDefault();
+
+      // 1. Close Menu Drawer if open
+      const drawerDetails = document.getElementById('Details-menu-drawer-container');
+      if (drawerDetails) {
+        drawerDetails.removeAttribute('open');
+        drawerDetails.classList.remove('menu-opening');
+      }
+
+      const header = document.querySelector('.section-header');
+      if (header) {
+        header.classList.remove('menu-open');
+      }
+
+      document.body.classList.remove(
+        'overflow-hidden-desktop',
+        'overflow-hidden-tablet',
+        'overflow-hidden-mobile'
+      );
+
+      // 2. Smoothly scroll with sticky header compensation
+      const headerEl = document.querySelector('.section-header') || document.querySelector('sticky-header');
+      const headerH = headerEl ? headerEl.offsetHeight : 70;
+      const targetY = catSec.getBoundingClientRect().top + window.pageYOffset - (headerH + 15);
+
+      window.scrollTo({
+        top: Math.max(0, targetY),
+        behavior: 'smooth'
+      });
+
+      if (history.pushState) {
+        history.pushState(null, null, '#category-section');
+      }
+    }
+  }
+
+  // Intercept category links in drawer and header
+  const categoryLinks = document.querySelectorAll(
+    '[data-target-category="true"], .menu-drawer__menu a[href*="#category-section"], .header__inline-menu a[href*="#category-section"]'
+  );
+
+  categoryLinks.forEach((link) => {
+    link.addEventListener('click', scrollToCategory);
+  });
+
+  // Handle direct navigation with #category-section hash
+  if (window.location.hash === '#category-section') {
+    setTimeout(() => {
+      const catSec = document.getElementById('category-section') || document.querySelector('.coverflow-section');
+      if (catSec) {
+        const headerEl = document.querySelector('.section-header') || document.querySelector('sticky-header');
+        const headerH = headerEl ? headerEl.offsetHeight : 70;
+        const targetY = catSec.getBoundingClientRect().top + window.pageYOffset - (headerH + 15);
+        window.scrollTo({
+          top: Math.max(0, targetY),
+          behavior: 'smooth'
+        });
+      }
+    }, 250);
+  }
 }
